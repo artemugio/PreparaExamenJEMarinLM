@@ -1,0 +1,33 @@
+{
+  "name": "preparaexamenjemarin-lm",
+  "version": "2.0.0",
+  "description": "Juego interactivo para preparación del examen LMSGI con 50 preguntas sobre XML, DTD, XSD, XPath, XQuery, XSLT, HTML5 y CSS",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "server": "http-server"
+  },
+  "keywords": [
+    "lmsgi",
+    "xml",
+    "xsd",
+    "dtd",
+    "xpath",
+    "xquery",
+    "xslt",
+    "html5",
+    "css",
+    "examen",
+    "juego",
+    "educativo"
+  ],
+  "author": "JEMarinLM",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/PreparaExamenJEMarinLM.git"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

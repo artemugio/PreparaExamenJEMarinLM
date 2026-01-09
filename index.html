@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Preparatorio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Preparación de Examen</h1>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <p class="question-counter">Pregunta <span id="currentQuestion">1</span> de <span id="totalQuestions">10</span></p>
+        </header>
+
+        <main>
+            <!-- Pantalla de inicio -->
+            <div id="startScreen" class="screen active">
+                <div class="card">
+                    <h2>Bienvenido al Examen Preparatorio</h2>
+                    <p>Pon a prueba tus conocimientos y prepárate para el examen.</p>
+                    
+                    <!-- Selección de Dificultad -->
+                    <div class="options-section">
+                        <h3>Selecciona Dificultad:</h3>
+                        <div class="difficulty-buttons">
+                            <button class="difficulty-btn" data-difficulty="easy">🟢 Fácil (5 preguntas)</button>
+                            <button class="difficulty-btn active" data-difficulty="medium">🟡 Medio (10 preguntas)</button>
+                            <button class="difficulty-btn" data-difficulty="hard">🔴 Difícil (20 preguntas)</button>
+                        </div>
+                    </div>
+
+                    <!-- Selección de Tópicos -->
+                    <div class="options-section">
+                        <h3>Selecciona Tópicos de Estudio:</h3>
+                        <div class="topics-grid">
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="xml" checked> XML Básico
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="dtd" checked> DTD
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="xsd" checked> XSD
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="xpath" checked> XPath
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="xquery" checked> XQuery
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="xslt" checked> XSLT
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="html" checked> HTML5
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="css" checked> CSS
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="general" checked> Conceptos Generales
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="markup" checked> Lenguajes de Marcas
+                            </label>
+                            <label class="topic-checkbox">
+                                <input type="checkbox" value="syndication" checked> Sindicación (RSS)
+                            </label>
+                        </div>
+                    </div>
+
+                    <button id="startBtn" class="btn btn-primary">Comenzar Juego</button>
+                </div>
+
+                <!-- Sección de PDFs -->
+                <div class="pdf-section">
+                    <h3>📚 Materiales de Estudio (PDFs)</h3>
+                    <div class="pdf-grid">
+                        <a href="PDFS/lmsgi-01-1-lenguajes-de-marcas.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">Lenguajes de Marcas</span>
+                        </a>
+                        <a href="PDFS/lmsgi-02-1-html.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">HTML</span>
+                        </a>
+                        <a href="PDFS/lmsgi-02-2-java-script.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">JavaScript</span>
+                        </a>
+                        <a href="PDFS/lmsgi-03-1-documentos-xml.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">Documentos XML</span>
+                        </a>
+                        <a href="PDFS/lmsgi-03-2-validacion.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">Validación</span>
+                        </a>
+                        <a href="PDFS/lmsgi-04-1-sindicacion-de-contenidos.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">Sindicación de Contenidos</span>
+                        </a>
+                        <a href="PDFS/lmsgi-05-1-x-path.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">XPath</span>
+                        </a>
+                        <a href="PDFS/lmsgi-05-2-x-query.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">XQuery</span>
+                        </a>
+                        <a href="PDFS/lmsgi-06-1-transformacion-de-datos.pdf" target="_blank" class="pdf-link">
+                            <span class="pdf-icon">📄</span>
+                            <span class="pdf-name">Transformación de Datos</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pantalla de preguntas -->
+            <div id="questionScreen" class="screen">
+                <div class="timer-container">
+                    <div id="timerDisplay" class="timer-neon">0:40</div>
+                </div>
+                <div class="card">
+                    <h2 id="questionText"></h2>
+                    <div id="optionsContainer" class="options-container"></div>
+                    <div class="button-group">
+                        <button id="nextBtn" class="btn btn-primary" disabled>Siguiente</button>
+                        <button id="skipBtn" class="btn btn-secondary">Saltar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pantalla de resultados -->
+            <div id="resultsScreen" class="screen">
+                <div class="card results-card">
+                    <h2>Resultados</h2>
+                    <div class="score">
+                        <p id="scoreText"></p>
+                        <p id="percentageText" class="percentage"></p>
+                    </div>
+                    <div id="resultsList" class="results-list"></div>
+                    <div class="button-group">
+                        <button id="retryBtn" class="btn btn-primary">Intentar Nuevamente</button>
+                        <button id="homeBtn" class="btn btn-secondary">Ir al Inicio</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Examen Preparatorio - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

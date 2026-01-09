@@ -1,0 +1,19 @@
+name: PreparaExamenJEMarinLM
+description: 'Juego interactivo con 50 preguntas para prepararse para el examen LMSGI - XML, DTD, XSD, XPath, XQuery, XSLT, HTML5, CSS'
+topics:
+  - lmsgi
+  - xml
+  - xsd
+  - dtd
+  - xpath
+  - xquery
+  - xslt
+  - html5
+  - css
+  - examen
+  - educativo
+  - juego
+  - interactive-game
+  - exam-preparation
+homepage: 'https://tu-usuario.github.io/PreparaExamenJEMarinLM/'
+documentation: 'https://github.com/tu-usuario/PreparaExamenJEMarinLM/blob/main/README.md'
