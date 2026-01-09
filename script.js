@@ -11,7 +11,8 @@ let gameState = {
     timePerQuestion: 60,
     timeLeft: 60,
     startTime: null,
-    questionStartTime: null
+    questionStartTime: null,
+    currentTimer: null
 };
 
 // ===== ELEMENTOS DEL DOM =====
@@ -125,6 +126,11 @@ function loadQuestion() {
         optionsContainer.appendChild(label);
     });
 
+    // Detener timer anterior si existe
+    if (gameState.currentTimer) {
+        clearInterval(gameState.currentTimer);
+    }
+
     // Iniciar timer
     gameState.questionStartTime = Date.now();
     gameState.timeLeft = gameState.timePerQuestion;
@@ -150,6 +156,12 @@ function submitAnswer() {
         return;
     }
 
+    // Detener timer
+    if (gameState.currentTimer) {
+        clearInterval(gameState.currentTimer);
+        gameState.currentTimer = null;
+    }
+
     // Registrar respuesta
     gameState.answers.push({
         questionId: question.id,
@@ -172,6 +184,12 @@ function submitAnswer() {
 }
 
 function skipQuestion() {
+    // Detener timer
+    if (gameState.currentTimer) {
+        clearInterval(gameState.currentTimer);
+        gameState.currentTimer = null;
+    }
+
     const question = gameState.selectedQuestions[gameState.currentQuestion];
     gameState.answers.push({
         questionId: question.id,
@@ -188,12 +206,13 @@ function skipQuestion() {
 }
 
 function startTimer() {
-    const timer = setInterval(() => {
+    gameState.currentTimer = setInterval(() => {
         gameState.timeLeft--;
         updateTimerDisplay();
 
         if (gameState.timeLeft <= 0) {
-            clearInterval(timer);
+            clearInterval(gameState.currentTimer);
+            gameState.currentTimer = null;
             skipQuestion();
         }
     }, 1000);
