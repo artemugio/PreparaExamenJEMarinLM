@@ -8,8 +8,8 @@ let gameState = {
     difficulty: 'medium',
     selectedTopics: ['xml', 'dtd', 'xsd', 'xpath', 'xquery', 'xslt', 'html', 'css', 'general', 'markup', 'syndication'],
     totalQuestions: 10,
-    timePerQuestion: 40,
-    timeLeft: 40,
+    timePerQuestion: 60,
+    timeLeft: 60,
     startTime: null,
     questionStartTime: null
 };
