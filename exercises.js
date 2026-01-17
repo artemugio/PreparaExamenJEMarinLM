@@ -10,21 +10,23 @@ const exercises = [
         difficulty: "easy",
         title: "Completar estructura XML básica",
         instruction: "Completa el documento XML. Selecciona la opción correcta para cada espacio en blanco:",
-        content: "<?xml version=\"___1___\"?>\n<___2___>\n  <libro>\n    <titulo>XML Avanzado</titulo>\n  </libro>\n</___2___>",
+        content: "&lt;?xml version=\"___1___\"?&gt;\n&lt;___2___&gt;\n  &lt;libro&gt;\n    &lt;titulo&gt;XML Avanzado&lt;/titulo&gt;\n  &lt;/libro&gt;\n&lt;/___2___&gt;",
         blanks: [
             {
                 blankId: "___1___",
                 options: ["\"1.0\"", "\"2.0\"", "\"3.0\""],
-                correct: 0
+                correct: 0,
+                explanation: "La versión XML siempre es 1.0"
             },
             {
                 blankId: "___2___",
                 options: ["catalogo", "biblioteca", "coleccion"],
-                correct: 0
+                correct: 0,
+                explanation: "El elemento raíz contiene todos los demás elementos"
             }
         ],
-        explanation: "La declaración XML usa version=\"1.0\" y el elemento raíz contiene todos los demás.",
-        tip: "💡 La versión XML siempre es 1.0. El elemento raíz debe cerrarse exactamente igual que se abrió.",
+        explanation: "✅ Correcto. La declaración XML siempre va primero con version=\"1.0\", luego el elemento raíz (en este caso 'catalogo') que contiene todos los demás.",
+        tip: "💡 Recuerda: XML siempre empieza con la declaración, luego un elemento raíz único que contiene todo lo demás.",
         points: 15
     },
     {
@@ -33,27 +35,30 @@ const exercises = [
         topic: "xsd",
         difficulty: "medium",
         title: "Completar definición XSD",
-        instruction: "Completa la definición del elemento XSD:",
-        content: "<xs:element name=\"____1____\" type=\"____2____\" use=\"____3____\"/>",
+        instruction: "Completa la definición del atributo en XSD. Selecciona las opciones correctas:",
+        content: "&lt;xs:attribute name=\"___1___\" type=\"___2___\" use=\"___3___\"/&gt;",
         blanks: [
             {
-                blankId: "____1____",
-                options: ["\"email\"", "\"nombre\"", "\"edad\""],
-                correct: 0
+                blankId: "___1___",
+                options: ["email", "nombre", "edad"],
+                correct: 0,
+                explanation: "El nombre del atributo es 'email'"
             },
             {
-                blankId: "____2____",
+                blankId: "___2___",
                 options: ["xs:string", "xs:integer", "xs:date"],
-                correct: 0
+                correct: 0,
+                explanation: "Un email es un texto, por lo que usa xs:string"
             },
             {
-                blankId: "____3____",
+                blankId: "___3___",
                 options: ["optional", "required", "forbidden"],
-                correct: 1
+                correct: 1,
+                explanation: "El 'use' en XSD define si es obligatorio (required) u opcional (optional)"
             }
         ],
-        explanation: "Los atributos name, type y use definen un elemento obligatorio de tipo string.",
-        tip: "💡 En XSD, 'required' en 'use' hace que el atributo sea obligatorio. 'optional' lo hace opcional.",
+        explanation: "✅ Correcto. Un atributo email de tipo string es obligatorio en XSD.",
+        tip: "💡 En XSD: 'required' (obligatorio), 'optional' (opcional). Los atributos se definen con xs:attribute.",
         points: 20
     },
 
@@ -383,27 +388,36 @@ const exercises = [
         topic: "xslt",
         difficulty: "hard",
         title: "Completar transformación XSLT",
-        instruction: "Completa la plantilla XSLT:",
-        content: "<xsl:template ___1___ =\"/libro\">\n  <html>\n    <body>\n      <xsl:___2___ ___3___=\"titulo\"/>\n    </body>\n  </html>\n</xsl:template>",
+        instruction: "Completa la plantilla XSLT. Selecciona las opciones correctas:",
+        content: "&lt;xsl:template ___1___ =\"/libro\"&gt;\n  &lt;html&gt;\n    &lt;body&gt;\n      &lt;h1&gt;&lt;xsl:___2___ ___3___=\"titulo\"/&gt;&lt;/h1&gt;\n      &lt;p&gt;&lt;xsl:___4___ select=\"autor\"/&gt;&lt;/p&gt;\n    &lt;/body&gt;\n  &lt;/html&gt;\n&lt;/xsl:template&gt;",
         blanks: [
             {
                 blankId: "___1___",
                 options: ["match", "select", "name"],
-                correct: 0
+                correct: 0,
+                explanation: "Template match se usa para seleccionar qué elementos procesar"
             },
             {
                 blankId: "___2___",
                 options: ["value-of", "copy-of", "for-each"],
-                correct: 0
+                correct: 0,
+                explanation: "value-of extrae el valor de un elemento"
             },
             {
                 blankId: "___3___",
                 options: ["select", "mode", "match"],
-                correct: 0
+                correct: 0,
+                explanation: "select especifica la ruta XPath a procesar"
+            },
+            {
+                blankId: "___4___",
+                options: ["value-of", "copy-of", "for-each"],
+                correct: 0,
+                explanation: "También usamos value-of para extraer el autor"
             }
         ],
-        explanation: "XSLT usa match para patrones, value-of para extraer valores, y select para rutas XPath.",
-        tip: "💡 En XSLT: match selecciona elementos a procesar, value-of extrae contenido, select usa XPath.",
+        explanation: "✅ En XSLT:\n- template match=\"/libro\" → procesa elementos libro\n- xsl:value-of select=\"titulo\" → extrae el valor de titulo\n- xsl:value-of select=\"autor\" → extrae el valor de autor",
+        tip: "💡 Recuerda: match selecciona QUÉ elementos procesar, select (en value-of) selecciona QUÉ valor extraer usando XPath.",
         points: 25
     },
     {
@@ -766,6 +780,357 @@ const exercises = [
         ],
         explanation: "Buen markup: semántico, válido, bien estructurado, escalable. Evita: mezcla de estilos, caracteres sin escapar.",
         tip: "💡 Markup de calidad: semántico (describe significado), válido (sin errores), accesible, mantenible. Nada de hacks!",
+        points: 20
+    },
+
+    // ===== BATERÍA NUEVA: IDENTIFICAR ERRORES EN CÓDIGO =====
+    // XML - Errores Comunes
+    {
+        id: 38,
+        type: "errorIdentification",
+        topic: "xml",
+        difficulty: "medium",
+        title: "Error en declaración XML",
+        instruction: "Selecciona la línea que contiene un error y explica por qué:",
+        code: [
+            { line: 1, content: "<?xml version=\"1.0\" encoding=\"UTF-8?>" },
+            { line: 2, content: "<documento>" },
+            { line: 3, content: "  <contenido>Hola Mundo</contenido>" },
+            { line: 4, content: "</documento>" }
+        ],
+        errorLine: 1,
+        explanation: "❌ Línea 1: Falta cerrar correctamente la declaración XML. Debe ser: <?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        tip: "💡 La declaración XML SIEMPRE debe terminar con ?> (con cierre correcto)",
+        points: 10
+    },
+    {
+        id: 39,
+        type: "errorIdentification",
+        topic: "xml",
+        difficulty: "medium",
+        title: "Error: Etiqueta no cerrada",
+        instruction: "¿Dónde está el error en este XML?",
+        code: [
+            { line: 1, content: "<?xml version=\"1.0\"?>" },
+            { line: 2, content: "<personas>" },
+            { line: 3, content: "  <persona>" },
+            { line: 4, content: "    <nombre>Juan</nombre>" },
+            { line: 5, content: "    <edad>25</edad>" },
+            { line: 6, content: "</personas>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: La etiqueta <persona> se abre pero nunca se cierra con </persona>. Debe haber </persona> antes de cerrar </personas>",
+        tip: "💡 En XML bien formado, TODA etiqueta abierta DEBE cerrarse. Verifica que cada < tenga su correspondiente </",
+        points: 15
+    },
+    {
+        id: 40,
+        type: "errorIdentification",
+        topic: "xml",
+        difficulty: "easy",
+        title: "Error: Espacios en nombres de elementos",
+        instruction: "Identifica el error:",
+        code: [
+            { line: 1, content: "<?xml version=\"1.0\"?>" },
+            { line: 2, content: "<mi documento>" },
+            { line: 3, content: "  <titulo>XML Errors</titulo>" },
+            { line: 4, content: "</mi documento>" }
+        ],
+        errorLine: 2,
+        explanation: "❌ Línea 2: Los nombres de elementos NO pueden tener espacios. Debe ser: <mi_documento> o <miDocumento>",
+        tip: "💡 Nombres válidos: usa _ o camelCase. Inválidos: espacios, caracteres especiales, empezar con números",
+        points: 10
+    },
+    {
+        id: 41,
+        type: "errorIdentification",
+        topic: "xml",
+        difficulty: "medium",
+        title: "Error: Caracteres especiales sin escapar",
+        instruction: "¿Qué línea tiene el error?",
+        code: [
+            { line: 1, content: "<?xml version=\"1.0\"?>" },
+            { line: 2, content: "<mensaje>" },
+            { line: 3, content: "  <texto>El precio es 5 < 10 pesos</texto>" },
+            { line: 4, content: "</mensaje>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: El carácter < debe escaparse como &lt;. Correcto: El precio es 5 &lt; 10 pesos",
+        tip: "💡 Caracteres especiales en XML: < es &lt;, > es &gt;, & es &amp;, \" es &quot;, ' es &apos;",
+        points: 15
+    },
+
+    // DTD - Errores Comunes
+    {
+        id: 42,
+        type: "errorIdentification",
+        topic: "dtd",
+        difficulty: "medium",
+        title: "Error en declaración DTD",
+        instruction: "Selecciona la línea con el error:",
+        code: [
+            { line: 1, content: "<?xml version=\"1.0\"?>" },
+            { line: 2, content: "<!DOCTYPE libro [" },
+            { line: 3, content: "  <!ELEMENT libro (titulo, autor+" },
+            { line: 4, content: "  <!ELEMENT titulo (#PCDATA)>" },
+            { line: 5, content: "]>" },
+            { line: 6, content: "<libro><titulo>XML Pro</titulo><autor>Juan</autor></libro>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: Falta cerrar la declaración del elemento. Debe ser: <!ELEMENT libro (titulo, autor+)>",
+        tip: "💡 En DTD: <!ELEMENT nombre (contenido)> - Recuerda cerrar SIEMPRE con >",
+        points: 15
+    },
+    {
+        id: 43,
+        type: "errorIdentification",
+        topic: "dtd",
+        difficulty: "medium",
+        title: "Error: Operador DTD inválido",
+        instruction: "¿Cuál es el error?",
+        code: [
+            { line: 1, content: "<!ELEMENT persona (nombre, apellido*)>" },
+            { line: 2, content: "<!ELEMENT nombre (#PCDATA)>" },
+            { line: 3, content: "<!ELEMENT apellido (#PCDATA)>" },
+            { line: 4, content: "<!ATTLIST persona id ID & REQUIRED>" }
+        ],
+        errorLine: 4,
+        explanation: "❌ Línea 4: El operador es incorrecto. Debe ser: <!ATTLIST persona id ID #REQUIRED> (# no &)",
+        tip: "💡 En DTD: #REQUIRED (obligatorio), #IMPLIED (opcional), #FIXED (fijo). El # es importante!",
+        points: 15
+    },
+
+    // XSD/Schema - Errores Comunes
+    {
+        id: 44,
+        type: "errorIdentification",
+        topic: "xsd",
+        difficulty: "medium",
+        title: "Error en declaración XSD",
+        instruction: "Identifica el error en el esquema:",
+        code: [
+            { line: 1, content: "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">" },
+            { line: 2, content: "  <xs:element name=\"persona\" type=\"Persona\" />" },
+            { line: 3, content: "  <xs:complexType name=\"Persona\"" },
+            { line: 4, content: "    <xs:sequence>" },
+            { line: 5, content: "      <xs:element name=\"nombre\" type=\"xs:string\" />" },
+            { line: 6, content: "    </xs:sequence>" },
+            { line: 7, content: "  </xs:complexType>" },
+            { line: 8, content: "</xs:schema>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: Falta cerrar correctamente la etiqueta. Debe ser: <xs:complexType name=\"Persona\">",
+        tip: "💡 En XSD: usa > para abrir, </xs:complexType> para cerrar. No uses />",
+        points: 15
+    },
+    {
+        id: 45,
+        type: "errorIdentification",
+        topic: "xsd",
+        difficulty: "medium",
+        title: "Error en restricción XSD",
+        instruction: "¿Dónde está el error?",
+        code: [
+            { line: 1, content: "<xs:element name=\"edad\" type=\"xs:integer\">" },
+            { line: 2, content: "  <xs:simpleType>" },
+            { line: 3, content: "    <xs:restriction base=\"xs:integer\">" },
+            { line: 4, content: "      <xs:minInclusive value=\"0\" />" },
+            { line: 5, content: "      <xs:maxInclusive value=100 />" },
+            { line: 6, content: "    </xs:restriction>" },
+            { line: 7, content: "  </xs:simpleType>" },
+            { line: 8, content: "</xs:element>" }
+        ],
+        errorLine: 5,
+        explanation: "❌ Línea 5: El valor debe estar entre comillas. Debe ser: value=\"100\"",
+        tip: "💡 En XSD, TODOS los atributos necesitan comillas: value=\"100\", no value=100",
+        points: 15
+    },
+
+    // XPath - Errores Comunes
+    {
+        id: 46,
+        type: "errorIdentification",
+        topic: "xpath",
+        difficulty: "medium",
+        title: "Error en expresión XPath",
+        instruction: "¿Cuál es la expresión XPath incorrecta?",
+        code: [
+            { line: 1, content: "// Búsqueda correcta:" },
+            { line: 2, content: "//libro[autor=\"Cervantes\"]" },
+            { line: 3, content: "// Búsqueda incorrecta:" },
+            { line: 4, content: "//libro[author=\"Cervantes\"]" }
+        ],
+        errorLine: 4,
+        explanation: "❌ Línea 4: El atributo es 'autor', no 'author'. Debe ser: //libro[autor=\"Cervantes\"]",
+        tip: "💡 En XPath, debe coincidir EXACTAMENTE con el nombre del elemento en el XML",
+        points: 15
+    },
+    {
+        id: 47,
+        type: "errorIdentification",
+        topic: "xpath",
+        difficulty: "easy",
+        title: "Error: Confundir / y //",
+        instruction: "¿Cuál expresión es incorrecta para buscar 'titulo' en cualquier 'libro'?",
+        code: [
+            { line: 1, content: "// Correcto - busca en cualquier profundidad:" },
+            { line: 2, content: "//libro/titulo" },
+            { line: 3, content: "// Incorrecto - solo busca hijos directos:" },
+            { line: 4, content: "/biblioteca/libro/titulo" }
+        ],
+        errorLine: 4,
+        explanation: "❌ Línea 4: Si hay niveles entre biblioteca y libro, no funcionará. La línea 4 es DEMASIADO específica",
+        tip: "💡 Usa // para flexibilidad: //libro/titulo encuentra libros a cualquier profundidad",
+        points: 10
+    },
+
+    // XQuery - Errores Comunes
+    {
+        id: 48,
+        type: "errorIdentification",
+        topic: "xquery",
+        difficulty: "medium",
+        title: "Error en sintaxis FLWOR",
+        instruction: "Identifica el error en la consulta XQuery:",
+        code: [
+            { line: 1, content: "for $libro in //libro" },
+            { line: 2, content: "let $precio := $libro/precio" },
+            { line: 3, content: "where $libro/año > 2000" },
+            { line: 4, content: "order by $libro/titulo" },
+            { line: 5, content: "return $libro/titulo" }
+        ],
+        errorLine: 1,
+        explanation: "❌ Línea 1: Falta el documento/contexto. Si no hay un doc(), debe indicar dónde buscar: for $libro in doc('libros.xml')//libro",
+        tip: "💡 XQuery FLWOR: for (itera), let (asigna), where (filtra), order by (ordena), return (resultado)",
+        points: 20
+    },
+    {
+        id: 49,
+        type: "errorIdentification",
+        topic: "xquery",
+        difficulty: "medium",
+        title: "Error: Variable no declarada",
+        instruction: "¿Cuál es el error?",
+        code: [
+            { line: 1, content: "let $total := sum(//libro/precio)" },
+            { line: 2, content: "for $libro in //libro" },
+            { line: 3, content: "let $porcentaje := ($libro/precio div $total) * 100" },
+            { line: 4, content: "return <libro precio-porcentaje=\"{$porcentaje}\">{$libro/titulo}</libro>" }
+        ],
+        errorLine: 2,
+        explanation: "❌ Línea 2: El 'for' debe estar ANTES del 'let $total'. En FLWOR: primero for, luego let. Correcto: for $libro in ... let $total := ...",
+        tip: "💡 Orden FLWOR: FOR primero (iteración), LUEGO LET (asignación). Recuerda: F-L-W-O-R",
+        points: 20
+    },
+
+    // BaseX - Errores Comunes
+    {
+        id: 50,
+        type: "errorIdentification",
+        topic: "general",
+        difficulty: "hard",
+        title: "Error en comando BaseX",
+        instruction: "¿Cuál es el comando BaseX incorrecto?",
+        code: [
+            { line: 1, content: "CREATE DATABASE libros 'libros.xml'" },
+            { line: 2, content: "OPEN libros" },
+            { line: 3, content: "INSERT <libro>...</libro> INTO /biblioteca" },
+            { line: 4, content: "REPLACE //libro[1] WITH <nuevo></nuevo>" }
+        ],
+        errorLine: 1,
+        explanation: "❌ Línea 1: La sintaxis de CREATE es diferente. Debe ser: CREATE DATABASE libros = 'libros.xml' o load the file. Comprueba: CREATE DATABASE db input.xml",
+        tip: "💡 BaseX: CREATE DB nombre; CREATE DB nombre input.xml; OPEN nombre; INSERT; REPLACE; DELETE; EXPORT",
+        points: 20
+    },
+    {
+        id: 51,
+        type: "errorIdentification",
+        topic: "general",
+        difficulty: "hard",
+        title: "Error en query BaseX",
+        instruction: "¿Cuál línea tiene el error?",
+        code: [
+            { line: 1, content: "for $x in //libro[precio < 50]" },
+            { line: 2, content: "let $count := count(//capitulo)" },
+            { line: 3, content: "return <resultado>{$x/titulo} ({$count})</resultado>" }
+        ],
+        errorLine: 1,
+        explanation: "❌ Línea 1: El predicado numérico debe usar comparación con comillas en strings. Mejor: for $x in //libro[xs:decimal(precio) < 50]",
+        tip: "💡 En BaseX XQuery: tipos de datos son importantes. Compara tipos compatible",
+        points: 20
+    },
+    {
+        id: 52,
+        type: "errorIdentification",
+        topic: "xpath",
+        difficulty: "hard",
+        title: "Error en predicado XPath",
+        instruction: "¿Cuál expresión XPath es incorrecta?",
+        code: [
+            { line: 1, content: "// Buscar posición:" },
+            { line: 2, content: "//libro[1]" },
+            { line: 3, content: "// Buscar atributo específico:" },
+            { line: 4, content: "//libro[@isbn=\"123\"]" },
+            { line: 5, content: "// Error - falta @:" },
+            { line: 6, content: "//libro[isbn=\"123\"]" }
+        ],
+        errorLine: 6,
+        explanation: "❌ Línea 6: Para atributos, SIEMPRE necesitas @. Debe ser: //libro[@isbn=\"123\"] no //libro[isbn=\"123\"]",
+        tip: "💡 XPath: elementos con etiqueta, atributos con @. //titulo busca elemento, //@id busca atributo",
+        points: 20
+    },
+    {
+        id: 53,
+        type: "errorIdentification",
+        topic: "xquery",
+        difficulty: "hard",
+        title: "Error: Función XQuery incorrecta",
+        instruction: "¿Cuál es el error?",
+        code: [
+            { line: 1, content: "let $libros := //libro[año > 2000]" },
+            { line: 2, content: "let $cantidad := count($libros)" },
+            { line: 3, content: "let $promedio := average($libros/precio)" },
+            { line: 4, content: "return {cantidad: $cantidad, promedio: $promedio}" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: La función se llama 'avg()' no 'average()'. Debe ser: avg($libros/precio)",
+        tip: "💡 Funciones XQuery: count(), sum(), avg(), min(), max(), distinct-values(), etc.",
+        points: 20
+    },
+    {
+        id: 54,
+        type: "errorIdentification",
+        topic: "xml",
+        difficulty: "hard",
+        title: "Error: Espacio de nombres (Namespace)",
+        instruction: "¿Dónde está el error?",
+        code: [
+            { line: 1, content: "<libro xmlns=\"http://ejemplo.com/libros\">" },
+            { line: 2, content: "  <titulo>XML Pro</titulo>" },
+            { line: 3, content: "  <ns:autor xmlns:ns=\"http://ejemplo.com\">Juan</ns:autor>" },
+            { line: 4, content: "</libro>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: El prefijo 'ns:' no coincide con el namespace declarado. Si quieres usar ns, debe ser consistente",
+        tip: "💡 Namespaces: xmlns define el default, xmlns:prefijo define un prefijo. Deben ser usados consistentemente",
+        points: 25
+    },
+    {
+        id: 55,
+        type: "errorIdentification",
+        topic: "dtd",
+        difficulty: "hard",
+        title: "Error: Elemento ANY en DTD",
+        instruction: "¿Cuál es el error?",
+        code: [
+            { line: 1, content: "<!ELEMENT documento (titulo, contenido+)>" },
+            { line: 2, content: "<!ELEMENT titulo (#PCDATA)>" },
+            { line: 3, content: "<!ELEMENT contenido (CUALQUIERcosa)>" },
+            { line: 4, content: "<!ELEMENT parrafo (#PCDATA)>" }
+        ],
+        errorLine: 3,
+        explanation: "❌ Línea 3: Para permitir cualquier contenido, se usa ANY no (CUALQUIERcosa). Debe ser: <!ELEMENT contenido ANY>",
+        tip: "💡 DTD: (#PCDATA) solo texto, (elemento) secuencia, (a|b) opción, ANY cualquier cosa",
         points: 20
     }
 ];

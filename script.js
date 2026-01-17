@@ -531,21 +531,43 @@ function generateCompleteExercise(exercise) {
     let html = `<div class="exercise-content">`;
     let content = exercise.content;
     
-    // Reemplazar blanks con selects
-    exercise.blanks.forEach((blank, index) => {
-        const options = blank.options.map((opt, optIndex) => 
-            `<option value="${optIndex}">${opt}</option>`
-        ).join('');
-        
-        const selectHtml = `<select class="blank-select" data-blank-index="${index}">
-            <option value="">-- Selecciona --</option>
-            ${options}
-        </select>`;
-        
-        content = content.replace(blank.blankId, selectHtml);
-    });
+    // Crear array de líneas para mejor visualización
+    const lines = content.split('\n');
+    let htmlLines = [];
     
-    html += content + '</div>';
+    // Procesar cada línea
+    for (let line of lines) {
+        let processedLine = line;
+        
+        // Reemplazar blanks con selects
+        exercise.blanks.forEach((blank, index) => {
+            const options = blank.options.map((opt, optIndex) => 
+                `<option value="${optIndex}"${optIndex === blank.correct ? ' selected' : ''}>${escapeHtml(opt)}</option>`
+            ).join('');
+            
+            const selectHtml = `<select class="blank-select" data-blank-index="${index}" data-blank-id="${blank.blankId}" title="Selecciona la opción correcta">
+                <option value="">-- Selecciona --</option>
+                ${options}
+            </select>`;
+            
+            if (processedLine.includes(blank.blankId)) {
+                processedLine = processedLine.replace(blank.blankId, selectHtml);
+            }
+        });
+        
+        htmlLines.push(processedLine);
+    }
+    
+    // Mostrar como bloque de código
+    html += `<pre class="code-display"><code>${htmlLines.join('\n')}</code></pre>`;
+    
+    html += `<div class="blanks-explanation">
+        <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--light-text);">
+            💡 Completa cada espacio en blanco seleccionando la opción correcta en los desplegables.
+        </p>
+    </div>`;
+    
+    html += '</div>';
     return html;
 }
 
@@ -593,19 +615,26 @@ function generateOrderingExercise(exercise) {
 }
 
 function generateErrorIdentificationExercise(exercise) {
-    let html = '<div class="code-block">';
+    let html = `<div class="error-identification-container">`;
+    html += `<div class="code-display error-code">`;
     
     exercise.code.forEach(codeLine => {
         const isError = codeLine.line === exercise.errorLine;
         html += `
-            <div class="code-line ${isError ? 'error' : ''}" data-line="${codeLine.line}">
-                <span class="line-number">${codeLine.line}</span>
-                <span>${escapeHtml(codeLine.content)}</span>
+            <div class="code-line-wrapper ${isError ? 'error-line' : ''}" data-line="${codeLine.line}">
+                <div class="line-number">${codeLine.line.toString().padStart(2, ' ')}</div>
+                <div class="code-line ${isError ? 'error' : 'normal'} clickable-line" data-line="${codeLine.line}" style="cursor: pointer;">
+                    ${escapeHtml(codeLine.content)}
+                </div>
             </div>
         `;
     });
     
-    html += '</div>';
+    html += `</div>`;
+    html += `<div class="error-instruction">
+        <p>👆 Haz clic en la línea donde creas que está el error</p>
+    </div>`;
+    html += `</div>`;
     return html;
 }
 
@@ -720,16 +749,30 @@ function skipExercise() {
 function checkCompleteExercise(exercise) {
     const selects = exerciseContainer.querySelectorAll('.blank-select');
     let allCorrect = true;
+    let feedback = '';
     
+    // Verificar si hay blanks sin responder
+    for (let i = 0; i < selects.length; i++) {
+        if (selects[i].value === '') {
+            alert('Por favor completa todos los espacios en blanco');
+            return false;
+        }
+    }
+    
+    // Verificar corrección
     selects.forEach((select, index) => {
         const selectedValue = parseInt(select.value);
         const blank = exercise.blanks[index];
         
         if (selectedValue !== blank.correct) {
             allCorrect = false;
-            select.style.borderColor = 'var(--danger-color)';
+            select.classList.add('error');
+            select.style.borderColor = '#ef4444';
+            select.style.backgroundColor = 'rgba(239, 68, 68, 0.05)';
         } else {
-            select.style.borderColor = 'var(--secondary-color)';
+            select.classList.remove('error');
+            select.style.borderColor = '#10b981';
+            select.style.backgroundColor = 'rgba(16, 185, 129, 0.05)';
         }
     });
     
@@ -789,7 +832,9 @@ function checkOrderingExercise(exercise) {
 }
 
 function checkErrorIdentificationExercise(exercise) {
-    const selectedLine = exerciseContainer.querySelector('.code-line.selected');
+    let selectedLine = exerciseContainer.querySelector('.clickable-line.selected') || 
+                       exerciseContainer.querySelector('.code-line.selected');
+    
     if (!selectedLine) {
         alert('Por favor selecciona la línea que contiene el error');
         return false;
@@ -800,8 +845,17 @@ function checkErrorIdentificationExercise(exercise) {
     
     if (isCorrect) {
         selectedLine.classList.add('correct');
+        selectedLine.closest('.code-line-wrapper')?.classList.add('correct');
     } else {
         selectedLine.classList.add('incorrect');
+        selectedLine.closest('.code-line-wrapper')?.classList.add('incorrect');
+        
+        // Mostrar también la línea correcta
+        const correctLine = exerciseContainer.querySelector(`[data-line="${exercise.errorLine}"]`);
+        if (correctLine) {
+            correctLine.classList.add('correct');
+            correctLine.closest('.code-line-wrapper')?.classList.add('highlight-correct');
+        }
     }
     
     return isCorrect;
@@ -896,10 +950,14 @@ document.addEventListener('click', (e) => {
     }
     
     // Error identification
-    if (e.target.classList.contains('code-line')) {
-        exerciseContainer.querySelectorAll('.code-line').forEach(line => line.classList.remove('selected'));
-        e.target.classList.add('selected');
-        submitExerciseBtn.disabled = false;
+    if (e.target.classList.contains('code-line') || e.target.classList.contains('clickable-line')) {
+        // Encontrar el contenedor del código
+        const codeContainer = e.target.closest('.error-identification-container') || e.target.closest('.code-block');
+        if (codeContainer) {
+            codeContainer.querySelectorAll('.clickable-line, .code-line').forEach(line => line.classList.remove('selected'));
+            e.target.classList.add('selected');
+            submitExerciseBtn.disabled = false;
+        }
     }
 });
 

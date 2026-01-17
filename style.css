@@ -1285,3 +1285,427 @@ footer {
         font-size: 0.85rem;
     }
 }
+
+/* ===== MEJORAS PARA EJERCICIOS DE CÓDIGO ===== */
+
+/* Bloque de código con formato mejorado */
+.code-display {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+    border: 1px solid #404040;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.code-display code {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: inherit;
+}
+
+/* Mejora de select en ejercicios de completar */
+.blank-select {
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background-color: white;
+    color: var(--dark-text);
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.blank-select:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.15);
+}
+
+.blank-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    background-color: #f0f7ff;
+}
+
+.blank-select option {
+    padding: 0.5rem;
+    background-color: white;
+    color: var(--dark-text);
+}
+
+.blank-select option:checked {
+    background: linear-gradient(var(--primary-color), var(--primary-color));
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Explicación de blanks */
+.blanks-explanation {
+    background: rgba(59, 130, 246, 0.05);
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+.blanks-explanation p {
+    margin: 0;
+    color: var(--dark-text);
+}
+
+/* Título del ejercicio */
+.exercise-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Instrucción del ejercicio */
+.exercise-instruction {
+    font-size: 1rem;
+    color: var(--dark-text);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    padding: 0.75rem;
+    background: var(--light-bg);
+    border-left: 3px solid var(--secondary-color);
+    border-radius: 4px;
+    padding-left: 1rem;
+}
+
+/* Contenedor de ejercicios mejorado */
+.exercise-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+/* Para ejercicios con muchas líneas */
+@media (max-width: 768px) {
+    .code-display {
+        font-size: 0.85rem;
+        padding: 1rem;
+    }
+    
+    .blank-select {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .exercise-instruction {
+        font-size: 0.95rem;
+    }
+    
+    .exercise-title {
+        font-size: 1.2rem;
+    }
+}
+
+/* ===== ESTILOS PARA ERROR IDENTIFICATION ===== */
+
+.error-identification-container {
+    width: 100%;
+}
+
+.code-display.error-code {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border: 1px solid #404040;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.code-line-wrapper {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0.8rem;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.code-line-wrapper:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-left-color: var(--primary-color);
+}
+
+.code-line-wrapper .line-number {
+    display: inline-block;
+    width: 2.5rem;
+    color: #858585;
+    text-align: right;
+    user-select: none;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.code-line-wrapper .code-line {
+    flex: 1;
+    display: block;
+    color: #d4d4d4;
+    font-family: 'Courier New', monospace;
+}
+
+.code-line-wrapper.clickable-line {
+    display: none;
+}
+
+.clickable-line {
+    padding: 0.6rem 0.8rem;
+    flex: 1;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.clickable-line:hover {
+    background-color: rgba(59, 130, 246, 0.15);
+}
+
+.clickable-line.selected {
+    background-color: rgba(59, 130, 246, 0.3);
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+}
+
+.clickable-line.correct {
+    background-color: rgba(16, 185, 129, 0.3);
+    color: #4ade80;
+}
+
+.clickable-line.incorrect {
+    background-color: rgba(239, 68, 68, 0.3);
+    color: #ff7f7f;
+}
+
+.code-line-wrapper.correct {
+    background-color: rgba(16, 185, 129, 0.2);
+    border-left-color: #10b981;
+}
+
+.code-line-wrapper.incorrect {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-left-color: #ef4444;
+}
+
+.code-line-wrapper.highlight-correct {
+    background-color: rgba(16, 185, 129, 0.25);
+    border-left-color: #10b981;
+    box-shadow: inset -3px 0 0 rgba(16, 185, 129, 0.5);
+}
+
+.error-instruction {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--dark-text);
+    font-weight: 500;
+}
+
+.error-instruction p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Responsive para error identification */
+@media (max-width: 768px) {
+    .code-display.error-code {
+        font-size: 0.85rem;
+        padding: 0.8rem;
+    }
+    
+    .code-line-wrapper {
+        gap: 0.5rem;
+        padding: 0.5rem 0.6rem;
+    }
+    
+    .code-line-wrapper .line-number {
+        width: 2rem;
+        font-size: 0.85rem;
+    }
+    
+    .error-instruction {
+        padding: 0.8rem;
+    }
+}
+
+/* ===== ESTILOS PARA GLOSARIO ===== */
+
+.glossary-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.glossary-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.glossary-intro {
+    color: var(--light-text);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--light-bg);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 4px;
+    padding-left: 1.2rem;
+}
+
+.glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.glossary-item {
+    background: #f9fafb;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.glossary-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+    transform: translateY(-4px);
+}
+
+.glossary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.glossary-item h4 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.term-category {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.glossary-item p {
+    color: var(--dark-text);
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    text-align: justify;
+}
+
+.glossary-item p:last-child {
+    margin-bottom: 0;
+}
+
+.glossary-item p strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.example {
+    background: white;
+    border-left: 3px solid var(--secondary-color);
+    padding-left: 1rem;
+    padding: 0.8rem 0 0.8rem 1rem;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--dark-text);
+    font-style: italic;
+}
+
+.example strong {
+    color: var(--secondary-color);
+}
+
+/* Responsive para glosario */
+@media (max-width: 1200px) {
+    .glossary-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .glossary-section {
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .glossary-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .glossary-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .glossary-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .term-category {
+        font-size: 0.65rem;
+    }
+
+    .glossary-item {
+        padding: 1.2rem;
+    }
+
+    .glossary-item p {
+        text-align: left;
+        font-size: 0.95rem;
+    }
+
+    .glossary-intro {
+        font-size: 0.95rem;
+        padding: 0.8rem;
+        padding-left: 1rem;
+    }
+}
