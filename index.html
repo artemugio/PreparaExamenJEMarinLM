@@ -33,6 +33,55 @@
                         </div>
                     </div>
 
+                    <!-- Configuración de TTS -->
+                    <div class="options-section">
+                        <h3>🎙️ Configuración de Voz:</h3>
+                        <div class="tts-config">
+                            <label class="tts-checkbox">
+                                <input type="checkbox" id="enableTTS" checked>
+                                <span>Activar lectura de voz</span>
+                            </label>
+                            
+                            <div id="ttsOptions" class="tts-options">
+                                <div class="tts-control">
+                                    <label for="ttsVoice">Voz:</label>
+                                    <select id="ttsVoice">
+                                        <option value="default">Automática</option>
+                                    </select>
+                                </div>
+
+                                <div class="tts-control">
+                                    <label for="ttsRate">Velocidad:</label>
+                                    <div class="slider-container">
+                                        <span class="slider-label">Lenta</span>
+                                        <input type="range" id="ttsRate" min="0.5" max="2" step="0.25" value="1" class="slider">
+                                        <span class="slider-label">Rápida</span>
+                                    </div>
+                                </div>
+
+                                <div class="tts-control">
+                                    <label for="ttsPitch">Tono:</label>
+                                    <div class="slider-container">
+                                        <span class="slider-label">Bajo</span>
+                                        <input type="range" id="ttsPitch" min="0.5" max="2" step="0.25" value="1" class="slider">
+                                        <span class="slider-label">Alto</span>
+                                    </div>
+                                </div>
+
+                                <div class="tts-control">
+                                    <label for="ttsVolume">Volumen:</label>
+                                    <div class="slider-container">
+                                        <span class="slider-label">Bajo</span>
+                                        <input type="range" id="ttsVolume" min="0" max="1" step="0.1" value="1" class="slider">
+                                        <span class="slider-label">Alto</span>
+                                    </div>
+                                </div>
+
+                                <button id="testTtsBtn" class="btn btn-secondary btn-small">🔊 Prueba de Voz</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Selección de Tópicos -->
                     <div class="options-section">
                         <h3>Selecciona Tópicos de Estudio:</h3>
@@ -73,7 +122,10 @@
                         </div>
                     </div>
 
-                    <button id="startBtn" class="btn btn-primary">Comenzar Juego</button>
+                    <div class="button-group">
+                        <button id="startBtn" class="btn btn-primary">Comenzar Juego</button>
+                        <button id="exercisesBtn" class="btn btn-secondary">📝 Ejercicios Interactivos</button>
+                    </div>
                 </div>
 
                 <!-- Sección de PDFs -->
@@ -124,6 +176,7 @@
             <div id="questionScreen" class="screen">
                 <div class="timer-container">
                     <div id="timerDisplay" class="timer-neon">0:40</div>
+                    <button id="repeatBtn" class="btn-repeat" title="Repetir pregunta">🔊</button>
                 </div>
                 <div class="card">
                     <h2 id="questionText"></h2>
@@ -150,6 +203,24 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pantalla de Ejercicios Interactivos -->
+            <div id="exercisesScreen" class="screen">
+                <div class="card">
+                    <h2>📝 Ejercicios Interactivos</h2>
+                    <p class="exercise-counter">Ejercicio <span id="currentExercise">1</span> de <span id="totalExercises">5</span></p>
+                    
+                    <div id="exerciseContainer" class="exercise-container">
+                        <!-- El contenido del ejercicio se genera dinámicamente -->
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="submitExerciseBtn" class="btn btn-primary" disabled>Verificar</button>
+                        <button id="skipExerciseBtn" class="btn btn-secondary">Saltar</button>
+                        <button id="backToMenuBtn" class="btn btn-secondary">Volver al Menú</button>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <footer>
@@ -158,6 +229,7 @@
     </div>
 
     <script src="questions.js"></script>
+    <script src="exercises.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

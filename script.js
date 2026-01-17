@@ -12,36 +12,141 @@ let gameState = {
     timeLeft: 60,
     startTime: null,
     questionStartTime: null,
-    currentTimer: null
+    currentTimer: null,
+    ttsEnabled: true,
+    ttsRate: 1,
+    ttsPitch: 1,
+    ttsVolume: 1,
+    ttsVoice: null,
+    currentUtterance: null,
+    currentExercise: 0,
+    selectedExercises: [],
+    exerciseAnswers: [],
+    exerciseScore: 0,
+    totalExercises: 10
 };
 
 // ===== ELEMENTOS DEL DOM =====
 const startScreen = document.getElementById('startScreen');
 const gameScreen = document.getElementById('questionScreen');
 const resultsScreen = document.getElementById('resultsScreen');
+const exercisesScreen = document.getElementById('exercisesScreen');
 
 const startBtn = document.getElementById('startBtn');
+const exercisesBtn = document.getElementById('exercisesBtn');
 const submitBtn = document.getElementById('nextBtn');
 const skipBtn = document.getElementById('skipBtn');
 const retryBtn = document.getElementById('retryBtn');
 const homeBtn = document.getElementById('homeBtn');
+const repeatBtn = document.getElementById('repeatBtn');
+const submitExerciseBtn = document.getElementById('submitExerciseBtn');
+const skipExerciseBtn = document.getElementById('skipExerciseBtn');
+const backToMenuBtn = document.getElementById('backToMenuBtn');
 
 const currentQuestionSpan = document.getElementById('currentQuestion');
 const totalQuestionsSpan = document.getElementById('totalQuestions');
+const currentExerciseSpan = document.getElementById('currentExercise');
+const totalExercisesSpan = document.getElementById('totalExercises');
 const questionText = document.getElementById('questionText');
 const optionsContainer = document.getElementById('optionsContainer');
+const exerciseContainer = document.getElementById('exerciseContainer');
 const scoreText = document.getElementById('scoreText');
 const percentageText = document.getElementById('percentageText');
 const resultsList = document.getElementById('resultsList');
 const progress = document.getElementById('progress');
 const timerDisplay = document.getElementById('timerDisplay');
 
+// Elementos de TTS
+const enableTTSCheckbox = document.getElementById('enableTTS');
+const ttsOptions = document.querySelector('.tts-options');
+const ttsVoiceSelect = document.getElementById('ttsVoice');
+const ttsRateSlider = document.getElementById('ttsRate');
+const ttsPitchSlider = document.getElementById('ttsPitch');
+const ttsVolumeSlider = document.getElementById('ttsVolume');
+const testTtsBtn = document.getElementById('testTtsBtn');
+
 // ===== EVENT LISTENERS =====
 startBtn.addEventListener('click', startGame);
+exercisesBtn.addEventListener('click', startExercises);
 skipBtn.addEventListener('click', skipQuestion);
 submitBtn.addEventListener('click', submitAnswer);
 retryBtn.addEventListener('click', goHome);
 homeBtn.addEventListener('click', goHome);
+repeatBtn.addEventListener('click', speakCurrentQuestion);
+submitExerciseBtn.addEventListener('click', submitExercise);
+skipExerciseBtn.addEventListener('click', skipExercise);
+backToMenuBtn.addEventListener('click', goHome);
+
+// Event Listeners para TTS
+enableTTSCheckbox.addEventListener('change', () => {
+    gameState.ttsEnabled = enableTTSCheckbox.checked;
+    if (ttsOptions) {
+        ttsOptions.classList.toggle('hidden', !gameState.ttsEnabled);
+    }
+});
+
+ttsRateSlider.addEventListener('input', (e) => {
+    gameState.ttsRate = parseFloat(e.target.value);
+});
+
+ttsPitchSlider.addEventListener('input', (e) => {
+    gameState.ttsPitch = parseFloat(e.target.value);
+});
+
+ttsVolumeSlider.addEventListener('input', (e) => {
+    gameState.ttsVolume = parseFloat(e.target.value);
+});
+
+ttsVoiceSelect.addEventListener('change', (e) => {
+    gameState.ttsVoice = e.target.value === 'default' ? null : e.target.value;
+});
+
+testTtsBtn.addEventListener('click', () => {
+    speakText('Esta es una prueba de voz. La velocidad, tono y volumen pueden ser ajustados desde los controles.');
+});
+
+// Inicializar voces disponibles
+initializeTTSVoices();
+exercisesBtn.addEventListener('click', startExercises);
+skipBtn.addEventListener('click', skipQuestion);
+submitBtn.addEventListener('click', submitAnswer);
+retryBtn.addEventListener('click', goHome);
+homeBtn.addEventListener('click', goHome);
+repeatBtn.addEventListener('click', speakCurrentQuestion);
+submitExerciseBtn.addEventListener('click', submitExercise);
+skipExerciseBtn.addEventListener('click', skipExercise);
+backToMenuBtn.addEventListener('click', goHome);
+
+// Event Listeners para TTS
+enableTTSCheckbox.addEventListener('change', () => {
+    gameState.ttsEnabled = enableTTSCheckbox.checked;
+    if (ttsOptions) {
+        ttsOptions.classList.toggle('hidden', !gameState.ttsEnabled);
+    }
+});
+
+ttsRateSlider.addEventListener('input', (e) => {
+    gameState.ttsRate = parseFloat(e.target.value);
+});
+
+ttsPitchSlider.addEventListener('input', (e) => {
+    gameState.ttsPitch = parseFloat(e.target.value);
+});
+
+ttsVolumeSlider.addEventListener('input', (e) => {
+    gameState.ttsVolume = parseFloat(e.target.value);
+});
+
+ttsVoiceSelect.addEventListener('change', (e) => {
+    gameState.ttsVoice = e.target.value === 'default' ? null : e.target.value;
+});
+
+testTtsBtn.addEventListener('click', () => {
+    speakText('Esta es una prueba de voz. La velocidad, tono y volumen pueden ser ajustados desde los controles.');
+});
+
+// Inicializar voces disponibles
+initializeTTSVoices();
 
 // Botones de selección de nivel de dificultad
 document.querySelectorAll('.difficulty-btn').forEach(btn => {
@@ -99,6 +204,13 @@ function startGame() {
     loadQuestion();
 }
 
+// Función para escapar caracteres especiales HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function loadQuestion() {
     if (gameState.currentQuestion >= gameState.selectedQuestions.length) {
         showResults();
@@ -120,7 +232,7 @@ function loadQuestion() {
         label.className = 'option-label';
         label.innerHTML = `
             <input type="radio" name="answer" value="${index}">
-            <span>${option}</span>
+            <span>${escapeHtml(option)}</span>
         `;
         label.addEventListener('click', () => selectAnswer(index));
         optionsContainer.appendChild(label);
@@ -137,6 +249,11 @@ function loadQuestion() {
     updateTimerDisplay();
     startTimer();
     updateProgress();
+    
+    // Leer pregunta si TTS está activado
+    if (gameState.ttsEnabled) {
+        setTimeout(() => speakCurrentQuestion(), 300);
+    }
 }
 
 function selectAnswer(index) {
@@ -262,9 +379,9 @@ function showResults() {
         const resultDiv = document.createElement('div');
         resultDiv.className = `result-item ${answer.isCorrect ? 'correct' : 'incorrect'}`;
         resultDiv.innerHTML = `
-            <h4>Pregunta ${index + 1}: ${answer.question}</h4>
-            <p><strong>Tu respuesta:</strong> ${answer.selectedAnswer || 'No respondida'}</p>
-            <p><strong>Respuesta correcta:</strong> ${answer.correctAnswer}</p>
+            <h4>Pregunta ${index + 1}: ${escapeHtml(answer.question)}</h4>
+            <p><strong>Tu respuesta:</strong> ${answer.selectedAnswer ? escapeHtml(answer.selectedAnswer) : 'No respondida'}</p>
+            <p><strong>Respuesta correcta:</strong> ${escapeHtml(answer.correctAnswer)}</p>
             <p><strong>Tema:</strong> ${answer.topic} | <strong>Dificultad:</strong> ${answer.difficulty}</p>
         `;
         resultsList.appendChild(resultDiv);
@@ -284,4 +401,557 @@ function showScreen(screenId) {
     startScreen.style.display = (screenId === 'startScreen') ? 'block' : 'none';
     gameScreen.style.display = (screenId === 'questionScreen') ? 'block' : 'none';
     resultsScreen.style.display = (screenId === 'resultsScreen') ? 'block' : 'none';
+    exercisesScreen.style.display = (screenId === 'exercisesScreen') ? 'block' : 'none';
 }
+// ===== FUNCIONES DE TTS (Text-to-Speech) =====
+
+function initializeTTSVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    const spanishVoices = voices.filter(voice => voice.lang.startsWith('es'));
+    
+    // Limpiar opciones anteriores
+    ttsVoiceSelect.innerHTML = '<option value="default">Automática</option>';
+    
+    // Agregar voces disponibles
+    voices.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        ttsVoiceSelect.appendChild(option);
+    });
+}
+
+function speakText(text) {
+    // Cancelar cualquier síntesis en progreso
+    window.speechSynthesis.cancel();
+    
+    if (!gameState.ttsEnabled || !text) return;
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = gameState.ttsRate;
+    utterance.pitch = gameState.ttsPitch;
+    utterance.volume = gameState.ttsVolume;
+    utterance.lang = 'es-ES';
+    
+    // Seleccionar voz específica si se eligió
+    if (gameState.ttsVoice) {
+        const voices = window.speechSynthesis.getVoices();
+        utterance.voice = voices[gameState.ttsVoice];
+    }
+    
+    // Agregar animación al botón repeat
+    utterance.onstart = () => {
+        if (repeatBtn) repeatBtn.classList.add('speaking');
+    };
+    
+    utterance.onend = () => {
+        if (repeatBtn) repeatBtn.classList.remove('speaking');
+    };
+    
+    utterance.onerror = (event) => {
+        console.error('Error en síntesis de voz:', event.error);
+        if (repeatBtn) repeatBtn.classList.remove('speaking');
+    };
+    
+    gameState.currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+}
+
+function speakCurrentQuestion() {
+    if (gameState.selectedQuestions.length === 0) return;
+    
+    const currentQuestion = gameState.selectedQuestions[gameState.currentQuestion];
+    speakText(currentQuestion.question);
+}
+
+// Inicializar voces cuando estén listas
+window.speechSynthesis.onvoiceschanged = initializeTTSVoices;
+
+// ===== FUNCIONES DE EJERCICIOS =====
+
+function startExercises() {
+    // Obtener ejercicios aleatorios
+    gameState.selectedExercises = exercises.sort(() => Math.random() - 0.5).slice(0, gameState.totalExercises);
+    gameState.currentExercise = 0;
+    gameState.exerciseAnswers = [];
+    gameState.exerciseScore = 0;
+    
+    totalExercisesSpan.textContent = gameState.totalExercises;
+    showScreen('exercisesScreen');
+    loadExercise();
+}
+
+function loadExercise() {
+    if (gameState.currentExercise >= gameState.selectedExercises.length) {
+        showExerciseResults();
+        return;
+    }
+    
+    const exercise = gameState.selectedExercises[gameState.currentExercise];
+    currentExerciseSpan.textContent = gameState.currentExercise + 1;
+    exerciseContainer.innerHTML = '';
+    
+    // Generar HTML según el tipo de ejercicio
+    let htmlContent = `
+        <div class="exercise-title">${exercise.title || 'Ejercicio'}</div>
+        <div class="exercise-instruction">${exercise.instruction || ''}</div>
+    `;
+    
+    switch(exercise.type) {
+        case 'complete':
+            htmlContent += generateCompleteExercise(exercise);
+            break;
+        case 'trueFalse':
+            htmlContent += generateTrueFalseExercise(exercise);
+            break;
+        case 'matching':
+            htmlContent += generateMatchingExercise(exercise);
+            break;
+        case 'ordering':
+            htmlContent += generateOrderingExercise(exercise);
+            break;
+        case 'errorIdentification':
+            htmlContent += generateErrorIdentificationExercise(exercise);
+            break;
+        case 'fillBlanks':
+            htmlContent += generateFillBlanksExercise(exercise);
+            break;
+        case 'multipleCorrect':
+            htmlContent += generateMultipleCorrectExercise(exercise);
+            break;
+        default:
+            htmlContent += '<p>Tipo de ejercicio desconocido</p>';
+    }
+    
+    exerciseContainer.innerHTML = htmlContent;
+    submitExerciseBtn.disabled = false;
+}
+
+function generateCompleteExercise(exercise) {
+    let html = `<div class="exercise-content">`;
+    let content = exercise.content;
+    
+    // Reemplazar blanks con selects
+    exercise.blanks.forEach((blank, index) => {
+        const options = blank.options.map((opt, optIndex) => 
+            `<option value="${optIndex}">${opt}</option>`
+        ).join('');
+        
+        const selectHtml = `<select class="blank-select" data-blank-index="${index}">
+            <option value="">-- Selecciona --</option>
+            ${options}
+        </select>`;
+        
+        content = content.replace(blank.blankId, selectHtml);
+    });
+    
+    html += content + '</div>';
+    return html;
+}
+
+function generateTrueFalseExercise(exercise) {
+    return `
+        <div class="exercise-content">
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">${exercise.statement}</p>
+            <div class="true-false-buttons">
+                <button class="tf-btn" data-answer="true">✓ Verdadero</button>
+                <button class="tf-btn" data-answer="false">✗ Falso</button>
+            </div>
+        </div>
+    `;
+}
+
+function generateMatchingExercise(exercise) {
+    let html = '<div class="matching-pairs">';
+    
+    exercise.pairs.forEach(pair => {
+        html += `
+            <div class="matching-pair">
+                <div class="pair-left">${pair.left}</div>
+                <div class="pair-right">
+                    ${pair.rightOptions.map((opt, idx) => 
+                        `<button class="pair-button" data-pair-id="${pair.id}" data-option="${idx}">${opt}</button>`
+                    ).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function generateOrderingExercise(exercise) {
+    let html = '<div class="ordering-items">';
+    
+    exercise.items.forEach((item, index) => {
+        html += `<div class="ordering-item" draggable="true" data-index="${index}">${escapeHtml(item)}</div>`;
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function generateErrorIdentificationExercise(exercise) {
+    let html = '<div class="code-block">';
+    
+    exercise.code.forEach(codeLine => {
+        const isError = codeLine.line === exercise.errorLine;
+        html += `
+            <div class="code-line ${isError ? 'error' : ''}" data-line="${codeLine.line}">
+                <span class="line-number">${codeLine.line}</span>
+                <span>${escapeHtml(codeLine.content)}</span>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function generateFillBlanksExercise(exercise) {
+    let html = `<div class="exercise-content">${exercise.template}`;
+    
+    exercise.blanks.forEach((blank, index) => {
+        const options = blank.options.map((opt, optIndex) => 
+            `<option value="${optIndex}">${opt}</option>`
+        ).join('');
+        
+        const selectHtml = `<select class="blank-select" data-blank-index="${index}" title="${blank.label}">
+            <option value="">-- ${blank.label} --</option>
+            ${options}
+        </select>`;
+        
+        html = html.replace(`___${index + 1}___`, selectHtml);
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function generateMultipleCorrectExercise(exercise) {
+    let html = `
+        <div class="exercise-content">
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">${exercise.question}</p>
+            <div class="multi-correct-options">
+    `;
+    
+    exercise.options.forEach((option, index) => {
+        html += `
+            <label class="multi-option">
+                <input type="checkbox" data-option="${index}" value="${option.text}">
+                <span>${option.text}</span>
+            </label>
+        `;
+    });
+    
+    html += '</div></div>';
+    return html;
+}
+
+function submitExercise() {
+    const exercise = gameState.selectedExercises[gameState.currentExercise];
+    let isCorrect = false;
+    
+    switch(exercise.type) {
+        case 'complete':
+        case 'fillBlanks':
+            isCorrect = checkCompleteExercise(exercise);
+            break;
+        case 'trueFalse':
+            isCorrect = checkTrueFalseExercise(exercise);
+            break;
+        case 'matching':
+            isCorrect = checkMatchingExercise(exercise);
+            break;
+        case 'ordering':
+            isCorrect = checkOrderingExercise(exercise);
+            break;
+        case 'errorIdentification':
+            isCorrect = checkErrorIdentificationExercise(exercise);
+            break;
+        case 'multipleCorrect':
+            isCorrect = checkMultipleCorrectExercise(exercise);
+            break;
+    }
+    
+    if (isCorrect) {
+        gameState.exerciseScore += exercise.points || 10;
+        showFeedback('success', '✓ ¡Correcto! ' + exercise.explanation);
+    } else {
+        // Mostrar más información cuando falla
+        let feedbackText = '✗ Incorrecto. ' + exercise.explanation;
+        if (exercise.tip) {
+            feedbackText += '\n\n' + exercise.tip;
+        }
+        showFeedback('error', feedbackText);
+    }
+    
+    gameState.exerciseAnswers.push({
+        exerciseId: exercise.id,
+        title: exercise.title,
+        isCorrect: isCorrect,
+        explanation: exercise.explanation,
+        tip: exercise.tip
+    });
+    
+    submitExerciseBtn.disabled = true;
+    // Tiempo diferenciado: 5 segundos si falla, 3 si acierta
+    const delay = isCorrect ? 3000 : 5000;
+    setTimeout(() => {
+        gameState.currentExercise++;
+        loadExercise();
+    }, delay);
+}
+
+function skipExercise() {
+    const exercise = gameState.selectedExercises[gameState.currentExercise];
+    gameState.exerciseAnswers.push({
+        exerciseId: exercise.id,
+        title: exercise.title,
+        isCorrect: false,
+        explanation: exercise.explanation + ' (Saltado)'
+    });
+    
+    gameState.currentExercise++;
+    loadExercise();
+}
+
+function checkCompleteExercise(exercise) {
+    const selects = exerciseContainer.querySelectorAll('.blank-select');
+    let allCorrect = true;
+    
+    selects.forEach((select, index) => {
+        const selectedValue = parseInt(select.value);
+        const blank = exercise.blanks[index];
+        
+        if (selectedValue !== blank.correct) {
+            allCorrect = false;
+            select.style.borderColor = 'var(--danger-color)';
+        } else {
+            select.style.borderColor = 'var(--secondary-color)';
+        }
+    });
+    
+    return allCorrect;
+}
+
+function checkTrueFalseExercise(exercise) {
+    const selectedBtn = exerciseContainer.querySelector('.tf-btn.selected');
+    if (!selectedBtn) {
+        alert('Por favor selecciona una opción');
+        return false;
+    }
+    
+    const answer = selectedBtn.dataset.answer === 'true';
+    const isCorrect = answer === exercise.correct;
+    
+    exerciseContainer.querySelectorAll('.tf-btn').forEach(btn => {
+        if (isCorrect && answer === (btn.dataset.answer === 'true')) {
+            btn.classList.add('correct');
+        } else if (!isCorrect && answer === (btn.dataset.answer === 'true')) {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    return isCorrect;
+}
+
+function checkMatchingExercise(exercise) {
+    let allCorrect = true;
+    
+    exercise.pairs.forEach(pair => {
+        const buttons = exerciseContainer.querySelectorAll(`[data-pair-id="${pair.id}"]`);
+        const selectedBtn = Array.from(buttons).find(btn => btn.classList.contains('selected'));
+        
+        if (!selectedBtn) {
+            allCorrect = false;
+            return;
+        }
+        
+        const selectedIndex = parseInt(selectedBtn.dataset.option);
+        if (selectedIndex !== pair.correct) {
+            allCorrect = false;
+            selectedBtn.classList.add('incorrect');
+        } else {
+            selectedBtn.classList.add('correct');
+        }
+    });
+    
+    return allCorrect;
+}
+
+function checkOrderingExercise(exercise) {
+    const items = Array.from(exerciseContainer.querySelectorAll('.ordering-item'));
+    const currentOrder = items.map(item => parseInt(item.dataset.index));
+    
+    return JSON.stringify(currentOrder) === JSON.stringify(exercise.correctOrder);
+}
+
+function checkErrorIdentificationExercise(exercise) {
+    const selectedLine = exerciseContainer.querySelector('.code-line.selected');
+    if (!selectedLine) {
+        alert('Por favor selecciona la línea que contiene el error');
+        return false;
+    }
+    
+    const lineNumber = parseInt(selectedLine.dataset.line);
+    const isCorrect = lineNumber === exercise.errorLine;
+    
+    if (isCorrect) {
+        selectedLine.classList.add('correct');
+    } else {
+        selectedLine.classList.add('incorrect');
+    }
+    
+    return isCorrect;
+}
+
+function checkMultipleCorrectExercise(exercise) {
+    const checkboxes = exerciseContainer.querySelectorAll('input[type="checkbox"]');
+    let allCorrect = true;
+    let anySelected = false;
+    
+    checkboxes.forEach((checkbox, index) => {
+        const isChecked = checkbox.checked;
+        const shouldBeChecked = exercise.options[index].correct;
+        
+        if (isChecked) anySelected = true;
+        
+        if (isChecked !== shouldBeChecked) {
+            allCorrect = false;
+        }
+        
+        const label = checkbox.closest('.multi-option');
+        if (shouldBeChecked) {
+            label.classList.add('correct');
+        } else if (isChecked) {
+            label.classList.add('incorrect');
+        }
+    });
+    
+    if (!anySelected) {
+        alert('Por favor selecciona al menos una opción');
+        return false;
+    }
+    
+    return allCorrect;
+}
+
+function showFeedback(type, message) {
+    let feedback = exerciseContainer.querySelector('.exercise-feedback');
+    if (!feedback) {
+        feedback = document.createElement('div');
+        feedback.className = 'exercise-feedback';
+        exerciseContainer.appendChild(feedback);
+    }
+    
+    feedback.className = `exercise-feedback show ${type}`;
+    // Convertir saltos de línea en <br> para mostrar correctamente
+    const formattedMessage = message.replace(/\n/g, '<br>');
+    feedback.innerHTML = `<h4>${type === 'success' ? '✓ Correcto' : '✗ Incorrecto'}</h4><p>${formattedMessage}</p>`;
+}
+
+function showExerciseResults() {
+    showScreen('exercisesScreen');
+    
+    const totalPoints = gameState.selectedExercises.reduce((sum, ex) => sum + (ex.points || 10), 0);
+    const percentage = Math.round((gameState.exerciseScore / totalPoints) * 100);
+    
+    exerciseContainer.innerHTML = `
+        <div style="text-align: center;">
+            <h2>Resultados de Ejercicios</h2>
+            <div class="score">
+                <p>Puntuación: ${gameState.exerciseScore} / ${totalPoints}</p>
+                <p style="font-size: 2rem; color: var(--primary-color);">${percentage}%</p>
+            </div>
+        </div>
+    `;
+    
+    submitExerciseBtn.style.display = 'none';
+    skipExerciseBtn.style.display = 'none';
+    backToMenuBtn.style.display = 'inline-block';
+}
+
+// Event listeners para ejercicios interactivos
+document.addEventListener('click', (e) => {
+    // True/False buttons
+    if (e.target.classList.contains('tf-btn')) {
+        const parent = e.target.parentElement;
+        parent.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('selected'));
+        e.target.classList.add('selected');
+        submitExerciseBtn.disabled = false;
+    }
+    
+    // Matching buttons
+    if (e.target.classList.contains('pair-button')) {
+        e.target.parentElement.querySelectorAll('.pair-button').forEach(btn => btn.classList.remove('selected'));
+        e.target.classList.add('selected');
+        
+        // Check if all pairs are selected
+        const allSelected = Array.from(exerciseContainer.querySelectorAll('.pair-right')).every(
+            pair => pair.querySelector('.pair-button.selected')
+        );
+        submitExerciseBtn.disabled = !allSelected;
+    }
+    
+    // Error identification
+    if (e.target.classList.contains('code-line')) {
+        exerciseContainer.querySelectorAll('.code-line').forEach(line => line.classList.remove('selected'));
+        e.target.classList.add('selected');
+        submitExerciseBtn.disabled = false;
+    }
+});
+
+// Drag and drop para ordering
+document.addEventListener('dragstart', (e) => {
+    if (e.target.classList.contains('ordering-item')) {
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    }
+});
+
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+});
+
+document.addEventListener('drop', (e) => {
+    const dragging = exerciseContainer.querySelector('.ordering-item.dragging');
+    const afterElement = getDragAfterElement(exerciseContainer, e.clientY);
+    
+    if (afterElement == null) {
+        exerciseContainer.appendChild(dragging);
+    } else {
+        exerciseContainer.insertBefore(dragging, afterElement);
+    }
+    
+    dragging.classList.remove('dragging');
+    submitExerciseBtn.disabled = false;
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = Array.from(container.querySelectorAll('.ordering-item:not(.dragging)'));
+    
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// Change select blanks color on change
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('blank-select')) {
+        if (e.target.value !== '') {
+            e.target.style.borderColor = 'var(--primary-color)';
+        }
+        submitExerciseBtn.disabled = false;
+    }
+});
+window.speechSynthesis.onvoiceschanged = initializeTTSVoices;

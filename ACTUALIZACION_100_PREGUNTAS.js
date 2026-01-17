@@ -1,23 +1,17 @@
-// ACTUALIZACION: 100 PREGUNTAS AGREGADAS
+// ACTUALIZACION: 150 PREGUNTAS TOTALES
 // Fecha: Enero 2026
 // 
 // RESUMEN DE CAMBIOS:
 // ==================
 // 
 // 1. EXPANSIÓN DE PREGUNTAS:
-//    - Original: 50 preguntas (8 tópicos)
-//    - Actualizado: 100 preguntas (11 tópicos)
-//    - Aumento: 50 nuevas preguntas de refuerzo
+//    - Original: 100 preguntas (11 tópicos)
+//    - Actualizado: 150 preguntas (11 tópicos)
+//    - Aumento: 50 nuevas preguntas de refuerzo (5 por tema)
 //
-// 2. NUEVOS TÓPICOS AGREGADOS:
-//    ✓ markup: Lenguajes de Marcas Profundización (8 preguntas)
-//      - Diferencias entre marcas y programación
-//      - SGML y su relación con HTML/XML
-//      - Etiquetas, atributos, entidades
-//    
-//    ✓ syndication: Sindicación de Contenidos (10 preguntas)
-//      - RSS (Really Simple Syndication)
-//      - Atom como alternativa moderna
+// 2. DISTRIBUCIÓN DE PREGUNTAS POR TEMA (150 TOTAL):
+//    ✓ XML Básico: 13 preguntas (IDs 1-8, 101-105)
+//    ✓ DTD: 12 preguntas (IDs 9-15, 106-110)
 //      - Estructura de feeds y agregadores
 //      - OPML para gestión de feeds
 //

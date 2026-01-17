@@ -1026,6 +1026,526 @@ const questions = [
         correct: 1,
         explanation: "XML: formato de datos. XPath/XQuery: consultan XML. XSLT: transforma XML a otros formatos.",
         points: 20
+    },
+
+    // === NUEVAS PREGUNTAS - XML BÁSICO (5 preguntas) ===
+    {
+        id: 101,
+        topic: "xml",
+        difficulty: "medium",
+        question: "¿Qué es el prólogo de un documento XML?",
+        options: ["Un comentario obligatorio", "La declaración XML y cualquier cosa que preceda al elemento raíz", "El primer elemento", "Una instrucción de procesamiento"],
+        correct: 1,
+        explanation: "El prólogo incluye la declaración XML, comentarios, instrucciones de procesamiento y DTD antes del elemento raíz.",
+        points: 15
+    },
+    {
+        id: 102,
+        topic: "xml",
+        difficulty: "medium",
+        question: "¿Qué significa 'standalone' en la declaración XML?",
+        options: ["El documento funciona solo", "Indica si el documento depende de DTD externo", "El documento no tiene atributos", "Es un comentario"],
+        correct: 1,
+        explanation: "standalone=\"yes\" significa que el documento no requiere DTD externo para ser procesado.",
+        points: 15
+    },
+    {
+        id: 103,
+        topic: "xml",
+        difficulty: "hard",
+        question: "¿Cuál es la diferencia entre una entidad general y una entidad parámetro en XML?",
+        options: ["No hay diferencia", "General: en contenido; Parámetro: en DTD", "General: global; Parámetro: local", "Son lo mismo"],
+        correct: 1,
+        explanation: "Entidades generales se usan en el documento; entidades parámetro (%) se usan en DTD.",
+        points: 20
+    },
+    {
+        id: 104,
+        topic: "xml",
+        difficulty: "easy",
+        question: "¿Puede existir más de un elemento raíz en un documento XML bien formado?",
+        options: ["Sí, cuantos se quiera", "No, solo uno", "Depende del DTD", "Solo en XHTML"],
+        correct: 1,
+        explanation: "Un documento XML bien formado debe tener exactamente un elemento raíz que contiene todo lo demás.",
+        points: 10
+    },
+    {
+        id: 105,
+        topic: "xml",
+        difficulty: "medium",
+        question: "¿Qué es una instrucción de procesamiento (PI) en XML?",
+        options: ["Una etiqueta", "Información destinada al procesador, formato <?target instrucción?>", "Un comentario", "Una declaración"],
+        correct: 1,
+        explanation: "<?php echo 'hola'; ?> es una PI que indica al procesador qué hacer.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - DTD (5 preguntas) ===
+    {
+        id: 106,
+        topic: "dtd",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre DTD interno y DTD externo?",
+        options: ["No hay diferencia", "Interno: dentro del XML; Externo: en archivo aparte", "Son lo mismo", "Interno es más rápido"],
+        correct: 1,
+        explanation: "DTD interno se declara dentro del documento XML; DTD externo está en un archivo separado.",
+        points: 15
+    },
+    {
+        id: 107,
+        topic: "dtd",
+        difficulty: "hard",
+        question: "¿Qué significa #FIXED en una declaración DTD de atributo?",
+        options: ["El atributo es obligatorio", "El atributo tiene un valor fijo que no puede cambiar", "El atributo es inmutable", "No significa nada"],
+        correct: 1,
+        explanation: "#FIXED \"valor\" especifica que el atributo siempre debe tener ese valor específico.",
+        points: 20
+    },
+    {
+        id: 108,
+        topic: "dtd",
+        difficulty: "medium",
+        question: "¿Qué es una ENTITY en DTD?",
+        options: ["Un elemento", "Alias para contenido reutilizable en XML", "Un atributo", "Un tipo de DTD"],
+        correct: 1,
+        explanation: "Las entidades permiten definir contenido una vez y referenciarlo múltiples veces con &nombre;",
+        points: 15
+    },
+    {
+        id: 109,
+        topic: "dtd",
+        difficulty: "hard",
+        question: "¿Qué significa ANY en una declaración DTD de elemento?",
+        options: ["Sin contenido", "Puede contener cualquier combinación de elementos y texto", "Es un comentario", "Está vacío"],
+        correct: 1,
+        explanation: "ANY permite cualquier contenido: elementos, texto, o combinación, en cualquier orden y cantidad.",
+        points: 20
+    },
+    {
+        id: 110,
+        topic: "dtd",
+        difficulty: "medium",
+        question: "¿Cómo se define un atributo con lista de valores permitidos en DTD?",
+        options: ["<!ATTRIBUTE>", "<!ATTLIST elemento atributo (valor1|valor2|valor3) default>", "<!VALUES>", "No se puede"],
+        correct: 1,
+        explanation: "Se usa ATTLIST con valores separados por | dentro de paréntesis.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - XSD (5 preguntas) ===
+    {
+        id: 111,
+        topic: "xsd",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre xs:element global y local en XSD?",
+        options: ["No hay diferencia", "Global: nivel raíz, reutilizable; Local: dentro de otro elemento", "Son lo mismo", "Global es para DTD"],
+        correct: 1,
+        explanation: "Elementos globales se definen directamente bajo schema; locales dentro de tipos complejos.",
+        points: 15
+    },
+    {
+        id: 112,
+        topic: "xsd",
+        difficulty: "hard",
+        question: "¿Qué es xs:complexType en XSD?",
+        options: ["Un tipo simple", "Define un tipo que contiene atributos y/o elementos anidados", "Una restricción", "Un error"],
+        correct: 1,
+        explanation: "complexType permite crear tipos con contenido mixto, elementos secundarios y atributos.",
+        points: 20
+    },
+    {
+        id: 113,
+        topic: "xsd",
+        difficulty: "medium",
+        question: "¿Para qué sirve xs:pattern en XSD?",
+        options: ["Define un patrón visual", "Define restricción usando expresiones regulares", "Es un comentario", "No sirve"],
+        correct: 1,
+        explanation: "pattern valida contenido contra expresión regular: pattern=\"[A-Z]{3}\\d{3}\"",
+        points: 15
+    },
+    {
+        id: 114,
+        topic: "xsd",
+        difficulty: "hard",
+        question: "¿Qué es xs:restriction en XSD?",
+        options: ["Un error", "Define un nuevo tipo basado en restricciones de un tipo base", "Un elemento", "Un atributo"],
+        correct: 1,
+        explanation: "restriction crea un nuevo tipo simplificando otro, agregando limitaciones.",
+        points: 20
+    },
+    {
+        id: 115,
+        topic: "xsd",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre minOccurs y minInclusive en XSD?",
+        options: ["Son lo mismo", "minOccurs: repeticiones de elemento; minInclusive: valor mínimo numérico", "minOccurs es para text", "No hay diferencia"],
+        correct: 1,
+        explanation: "minOccurs controla cuántas veces aparece un elemento; minInclusive controla rangos numéricos.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - XPath (5 preguntas) ===
+    {
+        id: 116,
+        topic: "xpath",
+        difficulty: "medium",
+        question: "¿Qué devuelve la función string() en XPath?",
+        options: ["Un número", "Convierte el nodo a su representación textual", "Un booleano", "Nada"],
+        correct: 1,
+        explanation: "string() convierte un nodo o conjunto a cadena de texto.",
+        points: 15
+    },
+    {
+        id: 117,
+        topic: "xpath",
+        difficulty: "hard",
+        question: "¿Qué devuelve //libro[precio > 20]/titulo/text()?",
+        options: ["Los precios mayores a 20", "Títulos de libros cuyo precio es mayor a 20", "El atributo titulo", "Nada"],
+        correct: 1,
+        explanation: "Selecciona libros con precio > 20, luego extrae el texto del título.",
+        points: 20
+    },
+    {
+        id: 118,
+        topic: "xpath",
+        difficulty: "medium",
+        question: "¿Qué devuelve ancestor:: en XPath?",
+        options: ["Los hijos", "Todos los ancestros del nodo actual en cualquier nivel", "Solo el padre", "Nada"],
+        correct: 1,
+        explanation: "ancestor:: selecciona el padre, abuelo, bisabuelo, etc.",
+        points: 15
+    },
+    {
+        id: 119,
+        topic: "xpath",
+        difficulty: "hard",
+        question: "¿Qué es una aserción (assertion) en XPath?",
+        options: ["Un tipo de nodo", "Una expresión entre paréntesis que filtra nodos", "Un comentario", "No existe"],
+        correct: 1,
+        explanation: "[precio > 20] es una aserción que filtra nodos por condición.",
+        points: 20
+    },
+    {
+        id: 120,
+        topic: "xpath",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre self::nodo y . en XPath?",
+        options: ["No hay diferencia", "Son equivalentes, ambos seleccionan el nodo actual", "Self es más lento", "Son diferentes"],
+        correct: 1,
+        explanation: ". y self::node son equivalentes, ambos refieren al nodo contexto.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - XQuery (5 preguntas) ===
+    {
+        id: 121,
+        topic: "xquery",
+        difficulty: "medium",
+        question: "¿Para qué sirve la cláusula RETURN en XQuery?",
+        options: ["Para terminar la consulta", "Para especificar el resultado final de la consulta", "Para iterar", "Para comentarios"],
+        correct: 1,
+        explanation: "RETURN especifica qué se devuelve: elementos nuevos, transformados, etc.",
+        points: 15
+    },
+    {
+        id: 122,
+        topic: "xquery",
+        difficulty: "hard",
+        question: "¿Cuál es la diferencia entre operadores some y every en XQuery?",
+        options: ["No hay diferencia", "some: al menos uno cumple; every: todos cumplen condición", "Son lo mismo", "every es más rápido"],
+        correct: 1,
+        explanation: "some devuelve true si al menos un elemento cumple; every si todos cumplen.",
+        points: 20
+    },
+    {
+        id: 123,
+        topic: "xquery",
+        difficulty: "medium",
+        question: "¿Qué es el contexto (context) en XQuery?",
+        options: ["Un error", "El nodo sobre el que se evalúa la expresión actual", "Un tipo de dato", "Un operador"],
+        correct: 1,
+        explanation: "El contexto es el nodo de referencia desde el cual se evalúan expresiones.",
+        points: 15
+    },
+    {
+        id: 124,
+        topic: "xquery",
+        difficulty: "hard",
+        question: "¿Qué es XQuery Update?",
+        options: ["Una versión nueva de XQuery", "Extensión para modificar documentos XML", "Un error", "No existe"],
+        correct: 1,
+        explanation: "XQuery Update proporciona operaciones para insertar, eliminar y reemplazar nodos.",
+        points: 20
+    },
+    {
+        id: 125,
+        topic: "xquery",
+        difficulty: "medium",
+        question: "¿Cómo se define una variable local en XQuery?",
+        options: ["$variable = valor", "let $variable := valor return", "var variable", "declare variable"],
+        correct: 1,
+        explanation: "let $var := expresión permite crear variables locales en una consulta.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - XSLT (5 preguntas) ===
+    {
+        id: 126,
+        topic: "xslt",
+        difficulty: "medium",
+        question: "¿Qué es xsl:variable en XSLT?",
+        options: ["Un elemento", "Define variables locales inmutables en plantillas", "Un tipo de atributo", "No existe"],
+        correct: 1,
+        explanation: "xsl:variable define una variable que no puede cambiar su valor una vez asignado.",
+        points: 15
+    },
+    {
+        id: 127,
+        topic: "xslt",
+        difficulty: "hard",
+        question: "¿Para qué sirve xsl:copy-of en XSLT?",
+        options: ["Copia solo el nodo", "Copia el nodo con todos sus descendientes", "Copia atributos", "Copia texto"],
+        correct: 1,
+        explanation: "copy-of copia un nodo y su subárbol completo al resultado.",
+        points: 20
+    },
+    {
+        id: 128,
+        topic: "xslt",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre xsl:value-of y xsl:copy-of?",
+        options: ["No hay diferencia", "value-of: texto; copy-of: estructura completa con nodos", "Son lo mismo", "value-of es más lento"],
+        correct: 1,
+        explanation: "value-of extrae solo texto; copy-of copia nodos con estructura.",
+        points: 15
+    },
+    {
+        id: 129,
+        topic: "xslt",
+        difficulty: "hard",
+        question: "¿Qué es xsl:decimal-format en XSLT?",
+        options: ["Un error", "Define símbolos para formato de números decimales", "Un tipo de dato", "Un atributo"],
+        correct: 1,
+        explanation: "decimal-format personaliza símbolos para separadores de decimales, miles, etc.",
+        points: 20
+    },
+    {
+        id: 130,
+        topic: "xslt",
+        difficulty: "medium",
+        question: "¿Para qué sirve xsl:sort en XSLT?",
+        options: ["Para ordenar elementos HTML", "Para ordenar nodos procesados por xsl:for-each", "Para comentarios", "No sirve"],
+        correct: 1,
+        explanation: "sort ordena los nodos según criterios especificados dentro de for-each o apply-templates.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - HTML5 (5 preguntas) ===
+    {
+        id: 131,
+        topic: "html",
+        difficulty: "medium",
+        question: "¿Cuál es la principal diferencia entre HTML4 y HTML5?",
+        options: ["HTML5 es más lento", "HTML5 incluye elementos semánticos, API y mejoras", "HTML4 es mejor", "No hay diferencia"],
+        correct: 1,
+        explanation: "HTML5 añade elementos semánticos, canvas, audio, video, API de almacenamiento, etc.",
+        points: 15
+    },
+    {
+        id: 132,
+        topic: "html",
+        difficulty: "medium",
+        question: "¿Para qué sirve el elemento <main> en HTML5?",
+        options: ["Para el título", "Define el contenido principal único del documento", "Para el pie de página", "Para metadatos"],
+        correct: 1,
+        explanation: "<main> agrupa el contenido principal, debe ser único por página.",
+        points: 15
+    },
+    {
+        id: 133,
+        topic: "html",
+        difficulty: "hard",
+        question: "¿Cuál es la diferencia entre <section> y <article> en HTML5?",
+        options: ["No hay diferencia", "section: agrupa contenido temático; article: contenido independiente reutilizable", "Son lo mismo", "section es para texto"],
+        correct: 1,
+        explanation: "<article> es contenido sindicable independiente; <section> agrupa por tema.",
+        points: 20
+    },
+    {
+        id: 134,
+        topic: "html",
+        difficulty: "medium",
+        question: "¿Para qué sirve el atributo autocomplete en HTML5?",
+        options: ["Completa automáticamente el código", "Ayuda al navegador a autocompletar campos de formulario", "Valida datos", "Previene errores"],
+        correct: 1,
+        explanation: "autocomplete=\"on/off\" permite que navegadores sugieran valores previos.",
+        points: 15
+    },
+    {
+        id: 135,
+        topic: "html",
+        difficulty: "hard",
+        question: "¿Qué es una etiqueta de formulario genérica en HTML5?",
+        options: ["<input>", "<fieldset>", "<datalist>", "Todas las anteriores"],
+        correct: 3,
+        explanation: "<input>, <textarea>, <select>, <fieldset>, <datalist> son elementos de formulario.",
+        points: 20
+    },
+
+    // === NUEVAS PREGUNTAS - CSS (5 preguntas) ===
+    {
+        id: 136,
+        topic: "css",
+        difficulty: "medium",
+        question: "¿Qué es la especificidad en CSS?",
+        options: ["Un tipo de selector", "El peso/prioridad de una regla CSS para aplicarse", "Un color", "Una unidad"],
+        correct: 1,
+        explanation: "Especificidad determina qué estilos se aplican cuando hay conflicto (ID > clase > elemento).",
+        points: 15
+    },
+    {
+        id: 137,
+        topic: "css",
+        difficulty: "hard",
+        question: "¿Cuál es la diferencia entre margin y padding en CSS?",
+        options: ["No hay diferencia", "margin: espacio exterior; padding: espacio interior", "Son lo mismo", "padding es más grande"],
+        correct: 1,
+        explanation: "margin: fuera del borde; padding: dentro del borde entre contenido y borde.",
+        points: 20
+    },
+    {
+        id: 138,
+        topic: "css",
+        difficulty: "medium",
+        question: "¿Para qué sirve la propiedad z-index en CSS?",
+        options: ["Controla zoom", "Controla el orden de apilamiento (profundidad) de elementos", "Alineación", "Rotación"],
+        correct: 1,
+        explanation: "z-index controla qué elemento aparece al frente en eje Z (profundidad).",
+        points: 15
+    },
+    {
+        id: 139,
+        topic: "css",
+        difficulty: "hard",
+        question: "¿Cuál es la diferencia entre position:relative y position:absolute?",
+        options: ["No hay diferencia", "relative: relativo a posición normal; absolute: relativo al contenedor posicionado", "Son lo mismo", "relative es más lento"],
+        correct: 1,
+        explanation: "relative: desplaza del lugar normal; absolute: sale del flujo respecto a padre posicionado.",
+        points: 20
+    },
+    {
+        id: 140,
+        topic: "css",
+        difficulty: "medium",
+        question: "¿Para qué sirve CSS Grid?",
+        options: ["Para efectos visuales", "Para crear layouts bidimensionales con filas y columnas", "Para animaciones", "Para fuentes"],
+        correct: 1,
+        explanation: "Grid permite diseñar layouts complejos con control de filas y columnas.",
+        points: 15
+    },
+
+    // === NUEVAS PREGUNTAS - LENGUAJES DE MARCAS (5 preguntas) ===
+    {
+        id: 141,
+        topic: "markup",
+        difficulty: "medium",
+        question: "¿Cuál fue el primer lenguaje de marcas estándar?",
+        options: ["XML", "HTML", "SGML", "XHTML"],
+        correct: 2,
+        explanation: "SGML (Standard Generalized Markup Language) fue el primer estándar en 1986.",
+        points: 15
+    },
+    {
+        id: 142,
+        topic: "markup",
+        difficulty: "medium",
+        question: "¿Qué es un lenguaje de marcas estructurado?",
+        options: ["HTML", "Lenguaje que usa etiquetas para describir estructura y significado de datos", "XHTML", "DTD"],
+        correct: 1,
+        explanation: "Usan etiquetas para anotar contenido con información de estructura y semántica.",
+        points: 15
+    },
+    {
+        id: 143,
+        topic: "markup",
+        difficulty: "hard",
+        question: "¿Cuál es la relación entre SGML, XML y HTML?",
+        options: ["Son lo mismo", "SGML es padre; XML es subconjunto de SGML; HTML es aplicación SGML", "No hay relación", "HTML es más antiguo"],
+        correct: 1,
+        explanation: "XML es simplificación de SGML; HTML es aplicación específica de SGML.",
+        points: 20
+    },
+    {
+        id: 144,
+        topic: "markup",
+        difficulty: "medium",
+        question: "¿Para qué sirve XML Namespace?",
+        options: ["Para comentarios", "Para evitar conflictos de nombres entre elementos de diferentes vocabularios", "Para decorar texto", "Para validar"],
+        correct: 1,
+        explanation: "Namespaces prefijan elementos: <soap:Envelope> para diferenciar vocabularios.",
+        points: 15
+    },
+    {
+        id: 145,
+        topic: "markup",
+        difficulty: "hard",
+        question: "¿Qué es una aplicación de lenguaje de marcas?",
+        options: ["Un programa que escribe código", "Un lenguaje específico basado en marcas genéricas (ej: SVG de XML)", "Un navegador", "Un validador"],
+        correct: 1,
+        explanation: "SVG, RSS, MathML, etc. son aplicaciones específicas de XML o SGML.",
+        points: 20
+    },
+
+    // === NUEVAS PREGUNTAS - SINDICACIÓN / RSS (5 preguntas) ===
+    {
+        id: 146,
+        topic: "syndication",
+        difficulty: "medium",
+        question: "¿Cuál es la estructura básica de un feed RSS?",
+        options: ["<feed>", "<rss><channel><item></rss>", "<xml><data></xml>", "<article>"],
+        correct: 1,
+        explanation: "RSS: <rss><channel> para metadatos, <item> para cada entrada.",
+        points: 15
+    },
+    {
+        id: 147,
+        topic: "syndication",
+        difficulty: "medium",
+        question: "¿Cuál es la diferencia entre RSS y Atom?",
+        options: ["No hay diferencia", "RSS: versiones múltiples; Atom: estándar único mejor especificado", "Son lo mismo", "RSS es más nuevo"],
+        correct: 1,
+        explanation: "Atom fue creado para mejorar RSS con especificación más clara.",
+        points: 15
+    },
+    {
+        id: 148,
+        topic: "syndication",
+        difficulty: "hard",
+        question: "¿Para qué sirve el elemento <guid> en RSS?",
+        options: ["Para identificador gráfico", "Identificador único global para cada artículo evitando duplicados", "Para comentarios", "No sirve"],
+        correct: 1,
+        explanation: "<guid> permite rastrear artículos únicamente incluso si cambia URL.",
+        points: 20
+    },
+    {
+        id: 149,
+        topic: "syndication",
+        difficulty: "medium",
+        question: "¿Cuál es la principal ventaja de usar RSS/Atom?",
+        options: ["Más rápido que HTML", "Los usuarios pueden suscribirse a actualizaciones automáticas", "Ocupa menos espacio", "Es más seguro"],
+        correct: 1,
+        explanation: "RSS/Atom permite distribución de contenido automática a lectores.",
+        points: 15
+    },
+    {
+        id: 150,
+        topic: "syndication",
+        difficulty: "hard",
+        question: "¿Qué es PubSubHubbub (WebSub) en relación a RSS?",
+        options: ["Un tipo de RSS", "Protocolo para notificación push de actualizaciones en feeds", "Un lector RSS", "Un error"],
+        correct: 1,
+        explanation: "WebSub permite que los servidores notifiquen inmediatamente a suscriptores.",
+        points: 20
     }
 ];
 
