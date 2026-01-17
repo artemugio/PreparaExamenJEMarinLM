@@ -170,6 +170,438 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Sección de Resumen por Temas -->
+                <div class="resume-section">
+                    <h3>📚 Resumen por Temas</h3>
+                    
+                    <div class="accordion">
+                        <!-- HTML -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🌐 HTML (HyperText Markup Language)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es el lenguaje para crear las estructuras básicas de una página web. Los "huesos" de una casa - sin él, no hay estructura.</p>
+                                
+                                <h4>Etiquetas Principales:</h4>
+                                <div class="code-block">
+&lt;!DOCTYPE html&gt;     &lt;!-- Define HTML5 --&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Título&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;Encabezado&lt;/header&gt;
+  &lt;nav&gt;Menú&lt;/nav&gt;
+  &lt;main&gt;Contenido&lt;/main&gt;
+  &lt;footer&gt;Pie de página&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                                </div>
+                                
+                                <h4>Por qué se usan:</h4>
+                                <ul>
+                                    <li>✅ Semántica: El navegador entiende la estructura</li>
+                                    <li>✅ Accesibilidad: Lectores de pantalla para discapacitados</li>
+                                    <li>✅ SEO: Google entiende mejor tu página</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CSS -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🎨 CSS (Cascading Style Sheets)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es el lenguaje para hacer bonita una página. Si HTML son los "huesos", CSS es la "ropa y maquillaje".</p>
+                                
+                                <h4>Sintaxis Básica:</h4>
+                                <div class="code-block">
+selector { propiedad: valor; }
+
+p { color: blue; font-size: 16px; }
+.destaque { background-color: yellow; }
+#principal { width: 100%; }
+a:hover { color: orange; }
+                                </div>
+                                
+                                <h4>Propiedades Comunes:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">color</span> → Color del texto</div>
+                                    <div class="prop-row"><span class="prop-name">font-size</span> → Tamaño de letra</div>
+                                    <div class="prop-row"><span class="prop-name">margin</span> → Espacio fuera</div>
+                                    <div class="prop-row"><span class="prop-name">padding</span> → Espacio dentro</div>
+                                    <div class="prop-row"><span class="prop-name">display: flex</span> → Alineación</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JavaScript -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">⚙️ JavaScript (JS)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es el lenguaje para hacer que las páginas sean INTERACTIVAS. El "cerebro" que responde a lo que hace el usuario.</p>
+                                
+                                <h4>Conceptos Clave:</h4>
+                                <div class="code-block">
+// Variables
+let nombre = "Juan";
+const edad = 25;
+
+// Funciones
+function saludar(nombre) { 
+  return "Hola " + nombre;
+}
+
+// Eventos
+button.addEventListener("click", function() {
+  console.log("¡Click!");
+});
+
+// Manipular HTML
+document.getElementById("id").textContent = "Nuevo";
+                                </div>
+                                
+                                <h4>Para qué se usa:</h4>
+                                <ul>
+                                    <li>✅ Validación de formularios</li>
+                                    <li>✅ Cambios sin recargar la página</li>
+                                    <li>✅ Respuestas inmediatas al usuario</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- XML -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">📋 XML (Extensible Markup Language)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es un lenguaje para GUARDAR y TRANSPORTAR información. Tú defines las etiquetas, no como HTML.</p>
+                                
+                                <h4>Ejemplo:</h4>
+                                <div class="code-block">
+&lt;?xml version="1.0"?&gt;
+&lt;biblioteca&gt;
+  &lt;libro&gt;
+    &lt;titulo&gt;El Quijote&lt;/titulo&gt;
+    &lt;autor&gt;Cervantes&lt;/autor&gt;
+    &lt;año&gt;1605&lt;/año&gt;
+  &lt;/libro&gt;
+&lt;/biblioteca&gt;
+                                </div>
+                                
+                                <h4>Reglas Importantes:</h4>
+                                <ul>
+                                    <li>✅ Bien formado: Abierto y cerrado correctamente</li>
+                                    <li>✅ Un único elemento raíz (&lt;biblioteca&gt;)</li>
+                                    <li>✅ Atributos entre comillas: &lt;libro id="1"&gt;</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- XPath -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">📍 XPath (XML Path Language)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es un lenguaje para BUSCAR y NAVEGAR dentro de archivos XML. "Direcciones de correo" para elementos XML.</p>
+                                
+                                <h4>Ejemplos de Rutas:</h4>
+                                <div class="code-block">
+/biblioteca/libro          ← De raíz a libro
+//libro                    ← Cualquier libro
+//libro[@id="1"]           ← Libro con id=1
+//libro[año > 1900]        ← Libros después de 1900
+//libro[1]/titulo          ← Título del 1er libro
+                                </div>
+                                
+                                <h4>Operadores:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">/</span> → Nivel siguiente</div>
+                                    <div class="prop-row"><span class="prop-name">//</span> → Cualquier nivel</div>
+                                    <div class="prop-row"><span class="prop-name">@</span> → Atributo</div>
+                                    <div class="prop-row"><span class="prop-name">[predicado]</span> → Condición</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- XQuery -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🔍 XQuery (XML Query Language)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es un lenguaje más potente que XPath. Como SQL pero para XML. Estructura FLWOR.</p>
+                                
+                                <h4>Estructura FLWOR:</h4>
+                                <div class="code-block">
+for $libro in //libro[año > 1900]
+let $precio := $libro/precio
+where $precio < 30
+order by $libro/titulo
+return $libro/titulo
+                                </div>
+                                
+                                <h4>Funciones Comunes:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">count()</span> → Contar elementos</div>
+                                    <div class="prop-row"><span class="prop-name">sum()</span> → Sumar valores</div>
+                                    <div class="prop-row"><span class="prop-name">avg()</span> → Promedio</div>
+                                    <div class="prop-row"><span class="prop-name">contains()</span> → Si contiene</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BaseX -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🗄️ BaseX (XML Database)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es una base de datos especializada en XML. Guarda, busca y manipula archivos XML profesionalmente.</p>
+                                
+                                <h4>Comandos Principales:</h4>
+                                <div class="code-block">
+CREATE DATABASE mibase input.xml    ← Crear DB
+OPEN mibase                         ← Abrir DB
+//libro                             ← Buscar
+INSERT &lt;libro&gt;...&lt;/libro&gt; INTO /biblioteca   ← Insertar
+REPLACE //libro/@id WITH "nuevo"    ← Actualizar
+DELETE //libro[@id="1"]             ← Eliminar
+EXPORT database.xml                 ← Exportar
+                                </div>
+                                
+                                <h4>Por qué usar BaseX:</h4>
+                                <ul>
+                                    <li>✅ Búsquedas rápidas (indexa automáticamente)</li>
+                                    <li>✅ Escalable (archivos grandes)</li>
+                                    <li>✅ Profesional (usado en empresas)</li>
+                                    <li>✅ XQuery nativo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Lenguajes de Marcas -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">📝 Lenguajes de Marcas (General)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es la disciplina que estudia cómo estructurar documentos usando marcas (etiquetas) para indicar su contenido y formato.</p>
+                                
+                                <h4>Lenguajes Principales:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">HTML</span> → Para mostrar en web</div>
+                                    <div class="prop-row"><span class="prop-name">XML</span> → Para guardar datos</div>
+                                    <div class="prop-row"><span class="prop-name">XHTML</span> → HTML con reglas XML</div>
+                                    <div class="prop-row"><span class="prop-name">SVG</span> → Gráficos vectoriales</div>
+                                    <div class="prop-row"><span class="prop-name">RSS</span> → Sindicación de contenidos</div>
+                                </div>
+                                
+                                <h4>Conceptos Clave:</h4>
+                                <ul>
+                                    <li>✅ Separación: Estructura (XML) vs Presentación (HTML+CSS)</li>
+                                    <li>✅ Validación: DTD y XSD para definir reglas</li>
+                                    <li>✅ Transformación: XSLT para cambiar formato</li>
+                                    <li>✅ Consulta: XPath y XQuery para buscar</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- DTD y XSD (Validación) -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">✔️ Validación: DTD y XSD</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Son sistemas para definir qué etiquetas y estructuras son válidas en un documento XML.</p>
+                                
+                                <h4>DTD (Document Type Definition) - Forma Antigua:</h4>
+                                <div class="code-block">
+&lt;!DOCTYPE biblioteca [
+  &lt;!ELEMENT biblioteca (libro+)&gt;
+  &lt;!ELEMENT libro (titulo, autor)&gt;
+  &lt;!ELEMENT titulo (#PCDATA)&gt;
+  &lt;!ELEMENT autor (#PCDATA)&gt;
+]&gt;
+                                </div>
+                                
+                                <h4>XSD (XML Schema Definition) - Forma Moderna:</h4>
+                                <div class="code-block">
+&lt;xs:schema&gt;
+  &lt;xs:element name="biblioteca"&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element name="libro" type="xs:string"/&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;
+&lt;/xs:schema&gt;
+                                </div>
+                                
+                                <h4>Diferencias:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">DTD</span> → Simple pero limitado</div>
+                                    <div class="prop-row"><span class="prop-name">XSD</span> → Más potente y flexible</div>
+                                    <div class="prop-row"><span class="prop-name">DTD</span> → Dentro o fuera del XML</div>
+                                    <div class="prop-row"><span class="prop-name">XSD</span> → Archivo XML independiente</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sindicación (RSS) -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">📢 Sindicación de Contenidos (RSS)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es un sistema para compartir contenido (noticias, blogs) de forma automática. RSS = Really Simple Syndication.</p>
+                                
+                                <h4>Estructura RSS:</h4>
+                                <div class="code-block">
+&lt;?xml version="1.0"?&gt;
+&lt;rss version="2.0"&gt;
+  &lt;channel&gt;
+    &lt;title&gt;Mi Blog&lt;/title&gt;
+    &lt;link&gt;www.miblog.com&lt;/link&gt;
+    &lt;description&gt;Descripción&lt;/description&gt;
+    
+    &lt;item&gt;
+      &lt;title&gt;Artículo 1&lt;/title&gt;
+      &lt;link&gt;www.miblog.com/articulo1&lt;/link&gt;
+      &lt;description&gt;Contenido&lt;/description&gt;
+      &lt;pubDate&gt;Mon, 17 Jan 2026 10:00:00&lt;/pubDate&gt;
+    &lt;/item&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;
+                                </div>
+                                
+                                <h4>Ventajas:</h4>
+                                <ul>
+                                    <li>✅ Actualización automática: Suscriptores reciben contenido nuevo</li>
+                                    <li>✅ Estándar abierto: Funciona en cualquier navegador/aplicación</li>
+                                    <li>✅ Descentralizado: No necesita servidor especial</li>
+                                    <li>✅ Simple: Muy fácil de crear</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- XSLT (Transformación) -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🔄 XSLT (Transformación de Datos)</button>
+                            <div class="accordion-content">
+                                <h4>¿Qué es?</h4>
+                                <p>Es un lenguaje para transformar documentos XML de un formato a otro. Por ejemplo, XML → HTML para mostrar en web.</p>
+                                
+                                <h4>Concepto:</h4>
+                                <div class="code-block">
+ENTRADA: XML original
+        ↓ (aplica XSLT)
+SALIDA: HTML, XML diferente, o texto plano
+                                </div>
+                                
+                                <h4>Estructura XSLT Básica:</h4>
+                                <div class="code-block">
+&lt;?xml version="1.0"?&gt;
+&lt;xsl:stylesheet version="1.0" xmlns:xsl="..."&gt;
+
+  &lt;xsl:template match="/"&gt;
+    &lt;html&gt;
+      &lt;body&gt;
+        &lt;xsl:for-each select="//libro"&gt;
+          &lt;p&gt;
+            &lt;xsl:value-of select="titulo"/&gt;
+            por 
+            &lt;xsl:value-of select="autor"/&gt;
+          &lt;/p&gt;
+        &lt;/xsl:for-each&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  &lt;/xsl:template&gt;
+
+&lt;/xsl:stylesheet&gt;
+                                </div>
+                                
+                                <h4>Elementos Comunes:</h4>
+                                <div class="properties-table">
+                                    <div class="prop-row"><span class="prop-name">&lt;xsl:template&gt;</span> → Define una plantilla</div>
+                                    <div class="prop-row"><span class="prop-name">&lt;xsl:for-each&gt;</span> → Itera elementos</div>
+                                    <div class="prop-row"><span class="prop-name">&lt;xsl:value-of&gt;</span> → Inserta valor</div>
+                                    <div class="prop-row"><span class="prop-name">&lt;xsl:if&gt;</span> → Condicional</div>
+                                    <div class="prop-row"><span class="prop-name">&lt;xsl:apply-templates&gt;</span> → Aplica plantilla</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Relación entre Todos los Temas -->
+                        <div class="accordion-item">
+                            <button class="accordion-header">🔗 Relación entre Todos los Temas</button>
+                            <div class="accordion-content">
+                                <h4>Mapa Completo de Lenguajes de Marcas:</h4>
+                                <div class="flow-diagram">
+                                    <div class="flow-step">
+                                        <div class="flow-number">1</div>
+                                        <div class="flow-text"><strong>Lenguajes</strong><br>de Marcas</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">2</div>
+                                        <div class="flow-text"><strong>XML</strong><br>Estructura datos</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">3</div>
+                                        <div class="flow-text"><strong>Validación</strong><br>DTD/XSD</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flow-diagram">
+                                    <div class="flow-step">
+                                        <div class="flow-number">4</div>
+                                        <div class="flow-text"><strong>XPath</strong><br>Buscar</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">5</div>
+                                        <div class="flow-text"><strong>XQuery</strong><br>Consultar</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">6</div>
+                                        <div class="flow-text"><strong>XSLT</strong><br>Transformar</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flow-diagram">
+                                    <div class="flow-step">
+                                        <div class="flow-number">7</div>
+                                        <div class="flow-text"><strong>BaseX</strong><br>Base Datos</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">8</div>
+                                        <div class="flow-text"><strong>HTML</strong><br>Estructura web</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">9</div>
+                                        <div class="flow-text"><strong>CSS</strong><br>Diseño</div>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-step">
+                                        <div class="flow-number">10</div>
+                                        <div class="flow-text"><strong>JS</strong><br>Interacción</div>
+                                    </div>
+                                </div>
+                                
+                                <h4 style="margin-top: 2rem;">Sindicación:</h4>
+                                <p>🔄 <strong>RSS</strong> utiliza XML para compartir contenido entre sitios automáticamente. Los lectores RSS reciben actualizaciones sin visitar cada sitio.</p>
+                                
+                                <h4>Uso en Examen:</h4>
+                                <ul>
+                                    <li>✅ <strong>Identificar:</strong> Reconocer qué lenguaje usar para cada tarea</li>
+                                    <li>✅ <strong>Escribir:</strong> Crear XML, XPath, XQuery válidos</li>
+                                    <li>✅ <strong>Validar:</strong> Crear DTD/XSD para un XML</li>
+                                    <li>✅ <strong>Transformar:</strong> Plantillas XSLT para cambiar formato</li>
+                                    <li>✅ <strong>Integrar:</strong> XML en HTML con CSS y JS</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Pantalla de preguntas -->

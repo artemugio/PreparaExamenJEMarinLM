@@ -1040,3 +1040,248 @@ footer {
         transform: translateY(0);
     }
 }
+
+/* ===== ESTILOS PARA RESUMEN POR TEMAS ===== */
+
+.resume-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.resume-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Acordeón */
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.accordion-item {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-header:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateX(5px);
+}
+
+.accordion-header::after {
+    content: '▼';
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.accordion-item.active .accordion-header::after {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    display: none;
+    padding: 1.5rem;
+    background: white;
+    border-top: 2px solid var(--border-color);
+    animation: slideDown 0.3s ease-out;
+}
+
+.accordion-item.active .accordion-content {
+    display: block;
+}
+
+.accordion-content h4 {
+    color: var(--primary-color);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.accordion-content h4:first-child {
+    margin-top: 0;
+}
+
+.accordion-content p {
+    color: var(--dark-text);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.accordion-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.accordion-content li {
+    margin-bottom: 0.5rem;
+    color: var(--dark-text);
+    line-height: 1.5;
+}
+
+/* Código */
+.code-block {
+    background: #f5f5f5;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Tabla de propiedades */
+.properties-table {
+    background: #f9fafb;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.prop-row {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.prop-row:last-child {
+    border-bottom: none;
+}
+
+.prop-name {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 600;
+    min-width: 120px;
+}
+
+/* Diagrama de flujo */
+.flow-diagram {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    align-items: center;
+}
+
+.flow-step {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.flow-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flow-text {
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+.flow-text strong {
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.flow-arrow {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive para acordeón */
+@media (max-width: 768px) {
+    .resume-section {
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .resume-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .accordion-header {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .accordion-content {
+        padding: 1rem;
+    }
+
+    .code-block {
+        font-size: 0.85rem;
+        padding: 0.8rem;
+    }
+
+    .flow-diagram {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+    }
+
+    .prop-name {
+        min-width: 100px;
+        font-size: 0.85rem;
+    }
+}
