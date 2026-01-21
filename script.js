@@ -403,6 +403,7 @@ function showScreen(screenId) {
     gameScreen.style.display = (screenId === 'questionScreen') ? 'block' : 'none';
     resultsScreen.style.display = (screenId === 'resultsScreen') ? 'block' : 'none';
     exercisesScreen.style.display = (screenId === 'exercisesScreen') ? 'block' : 'none';
+    formGameScreen.style.display = (screenId === 'formGameScreen') ? 'block' : 'none';
 }
 // ===== FUNCIONES DE TTS (Text-to-Speech) =====
 
