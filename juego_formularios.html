@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Formularios HTML - Aprende con Pistas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #4ade80;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .game-area {
+            padding: 30px;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            color: #495057;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .code-area {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+
+        .drop-zone {
+            display: inline-block;
+            min-width: 120px;
+            height: 30px;
+            border: 2px dashed #adb5bd;
+            background: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 0 3px;
+            vertical-align: middle;
+            transition: all 0.2s ease;
+        }
+
+        .drop-zone.drag-over {
+            background: #e7f3ff;
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .drop-zone.filled {
+            background: #d1fae5;
+            border-color: #10b981;
+            border-style: solid;
+        }
+
+        .drop-zone.incorrect {
+            background: #fee2e2;
+            border-color: #ef4444;
+            animation: shake 0.3s;
+        }
+        
+        .drop-zone.correct-answer-highlight {
+            background-color: #fef9c3;
+            border-color: #f59e0b;
+            border-style: solid;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .options-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+
+        .draggable {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: move;
+            user-select: none;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .draggable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .draggable.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .draggable.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+        .btn-hint {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        .btn-solution {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback, #hintArea {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background: #d1fae5; color: #064e3b; border: 2px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2; color: #991b1b; border: 2px solid #ef4444;
+        }
+
+        #hintArea {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            border-left: 4px solid #0ea5e9;
+            text-align: left;
+        }
+        #hintArea ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        #hintArea code {
+            background-color: rgba(0,0,0,0.05);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+
+        .final-screen {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .final-screen h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 4em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 30px 0;
+        }
+
+        .final-message {
+            font-size: 1.3em;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .btn-restart {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Juego de Formularios HTML - Modo Aprendizaje</h1>
+            <p>Arrastra, comprueba y aprende con pistas</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Ejercicio</div>
+                <div class="score-value"><span id="currentQuestion">1</span>/20</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Puntuación</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Intentos</div>
+                <div class="score-value" id="attempts">0</div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="question-title" id="questionTitle"></div>
+            <div class="code-area" id="codeArea"></div>
+            <div class="options-area" id="optionsArea"></div>
+            
+            <div class="button-group">
+                <button class="btn btn-check" id="checkBtn">✓ Comprobar</button>
+                <button class="btn btn-hint" id="hintBtn" style="display: none;">💡 Pista</button>
+                <button class="btn btn-solution" id="solutionBtn" style="display: none;">Mostrar Solución</button>
+                <button class="btn btn-next" id="nextBtn" style="display: none;">Siguiente →</button>
+            </div>
+            
+            <div class="feedback" id="feedback"></div>
+            <div id="hintArea"></div>
+        </div>
+
+        <div class="final-screen" id="finalScreen">
+            <h2>🎉 ¡Juego Completado! 🎉</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div class="final-message" id="finalMessage"></div>
+            <button class="btn-restart" onclick="location.reload()">🔄 Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const exercises = [
+            {
+                title: "Ejercicio 1: Formulario de Contacto Básico",
+                code: `&lt;{0}&gt; action="mailto:contacto@web.com" {1}="{2}"&gt;
+  &lt;{3}&gt; {4}="text" {5}="nombre" placeholder="Tu nombre"&gt;
+  &lt;{6}&gt; type="{7}" name="email"&gt;
+  &lt;{8}&gt; type="{9}" value="Enviar"&gt;
+&lt;/{10}&gt;`,
+                blanks: ["form", "method", "GET", "input", "type", "name", "input", "email", "input", "submit", "form"],
+                options: ["form", "method", "GET", "input", "type", "name", "email", "submit", "div", "POST", "button", "text", "send"],
+                hints: [
+                    "Todo formulario comienza con una etiqueta específica que lo envuelve todo.",
+                    "Para que un formulario envíe datos, necesita saber 'a dónde' (action) y 'cómo' (method).",
+                    "La etiqueta para crear campos de texto, botones y otros controles es muy común y se llama `input`.",
+                    "El botón que envía el formulario tiene un `type` especial que le dice al navegador que esa es su función."
+                ],
+                explanations: {
+                    "form": "La etiqueta `&lt;form&gt;` es el contenedor principal para todos los controles de un formulario.",
+                    "method": "El atributo `method` especifica cómo se enviarán los datos. `GET` los añade a la URL (visible), mientras que `POST` los envía de forma oculta.",
+                    "input": "La etiqueta `&lt;input&gt;` es la más versátil. Su comportamiento cambia radicalmente según su atributo `type`.",
+                    "type": "El atributo `type` en un `&lt;input&gt;` define el tipo de control: `text` para texto, `email` para correos, `submit` para un botón de envío, etc.",
+                    "submit": "Usar `type=\"submit\"` en un `&lt;input&gt;` o `&lt;button&gt;` crea el botón que, al pulsarlo, envía los datos del formulario.",
+                    "name": "El atributo `name` es el identificador del dato. Sin él, la información de ese campo no se envía."
+                }
+            },
+            {
+                title: "Ejercicio 2: Formulario de Login",
+                code: `&lt;{0}&gt; {1}="mailto:login@site.com" {2}="GET"&gt;
+  &lt;{3}&gt; type="text" {4}="usuario" {5}&gt;
+  &lt;{6}&gt; {7}="password" name="pass"&gt;
+  &lt;{8}&gt; type="{9}"&gt;Acceder&lt;/{10}&gt;
+&lt;/{11}&gt;`,
+                blanks: ["form", "action", "method", "input", "name", "required", "input", "type", "button", "submit", "button", "form"],
+                options: ["form", "action", "method", "input", "name", "required", "type", "password", "button", "submit", "text", "div"],
+                 hints: [
+                    "Para crear un campo donde el texto se oculta (como una contraseña), el `type` del `input` debe ser `password`.",
+                    "Si quieres que un campo sea obligatorio, puedes usar el atributo booleano `required`.",
+                    "Puedes usar `&lt;button&gt;` o `&lt;input type=\"submit\"&gt;` para enviar un formulario. Ambos son válidos."
+                ],
+                explanations: {
+                    "action": "El atributo `action` define la URL a la que se enviarán los datos del formulario.",
+                    "password": "El `type=\"password\"` hace que los caracteres escritos en el campo se muestren como puntos o asteriscos.",
+                    "required": "El atributo `required` es una simple validación del navegador que impide enviar el formulario si el campo está vacío.",
+                    "button": "La etiqueta `&lt;button&gt;` es muy flexible. Ponerle `type=\"submit\"` (aunque es su valor por defecto dentro de un form) asegura que enviará el formulario."
+                }
+            },
+            {
+                title: "Ejercicio 3: Selector con Opciones",
+                code: `&lt;{0}&gt; action="mailto:datos@web.com" method="{1}"&gt;
+  &lt;{2}&gt; {3}="pais"&gt;
+    &lt;{4}&gt; {5}="es"&gt;España&lt;/{6}&gt;
+    &lt;{7}&gt; value="mx"&gt;México&lt;/{8}&gt;
+  &lt;/{9}&gt;
+  &lt;input type="{10}" value="Enviar"&gt;
+&lt;/{11}&gt;`,
+                blanks: ["form", "GET", "select", "name", "option", "value", "option", "option", "option", "select", "submit", "form"],
+                options: ["form", "GET", "select", "name", "option", "value", "submit", "POST", "input", "choice"],
+                hints: [
+                    "Para crear una lista desplegable de opciones, se usa la etiqueta `&lt;select&gt;`.",
+                    "Cada ítem dentro de una lista desplegable se define con la etiqueta `&lt;option&gt;`.",
+                    "El atributo `value` en una `&lt;option&gt;` es el dato que realmente se envía, que puede ser diferente del texto que ve el usuario."
+                ],
+                explanations: {
+                    "select": "La etiqueta `&lt;select&gt;` crea un menú desplegable. El atributo `name` se coloca en `select`, no en las `option`.",
+                    "option": "Cada `&lt;option&gt;` representa una de las posibles elecciones en el desplegable.",
+                    "value": "Es fundamental que cada `&lt;option&gt;` tenga un atributo `value` para definir qué dato se mandará al servidor."
+                }
+            },
+            {
+                title: "Ejercicio 4: Formulario con Checkbox",
+                code: `&lt;{0}&gt; action="mailto:news@web.com" {1}="GET"&gt;
+  &lt;{2}&gt; type="{3}" name="email" {4}&gt;
+  &lt;{5}&gt; {6}="checkbox" {7}="newsletter" value="si"&gt;
+  &lt;input {8}="submit" {9}="Suscribirse"&gt;
+&lt;/{10}&gt;`,
+                blanks: ["form", "method", "input", "email", "required", "input", "type", "name", "type", "value", "form"],
+                options: ["form", "method", "input", "email", "required", "type", "name", "checkbox", "value", "submit", "GET", "text"],
+                hints: [
+                    "Para un campo de correo electrónico, existe un `type` específico que ayuda a los navegadores y móviles a validarlo: `email`.",
+                    "Una casilla de verificación que se puede marcar o desmarcar se crea con el `type=\"checkbox\"`.",
+                    "El atributo `value` en un `&lt;input&gt;` de tipo `submit` define el texto que se muestra en el botón."
+                ],
+                explanations: {
+                    "email": "Usar `type=\"email\"` puede mostrar un teclado optimizado en dispositivos móviles y permite validación automática.",
+                    "checkbox": "El `&lt;input type=\"checkbox\"&gt;` permite al usuario seleccionar cero o más opciones de un conjunto.",
+                    "value": "En un checkbox, `value` es el valor enviado si la casilla está marcada. En un botón submit, `value` es el texto del botón."
+                }
+            },
+            {
+                title: "Ejercicio 5: Formulario con Textarea",
+                code: `&lt;{0}&gt; {1}="mailto:mensaje@web.com" method="{2}"&gt;
+  &lt;{3}&gt; type="text" {4}="nombre"&gt;
+  &lt;{5}&gt; {6}="mensaje" {7}="5" cols="40"&gt;&lt;/{8}&gt;
+  &lt;{9}&gt; type="{10}"&gt;
+&lt;/{11}&gt;`,
+                blanks: ["form", "action", "GET", "input", "name", "textarea", "name", "rows", "textarea", "input", "submit", "form"],
+                options: ["form", "action", "GET", "input", "name", "textarea", "rows", "cols", "submit", "text", "message"],
+                hints: [
+                    "Cuando necesitas un campo de texto de varias líneas, `&lt;input type=\"text\"&gt;` no es suficiente. Hay una etiqueta específica para eso.",
+                    "La etiqueta para texto multilínea es `&lt;textarea&gt;`. A diferencia de `input`, se cierra con `&lt;/textarea&gt;`.",
+                    "El tamaño de un `textarea` se puede controlar con los atributos `rows` (filas) y `cols` (columnas)."
+                ],
+                explanations: {
+                    "textarea": "`&lt;textarea&gt;` es ideal para campos de comentarios, mensajes o cualquier texto largo.",
+                    "rows": "El atributo `rows` especifica el número de líneas de texto visibles en el `textarea`.",
+                    "cols": "El atributo `cols` especifica el ancho visible (en promedio de caracteres) del `textarea`."
+                }
+            },
+            {
+                title: "Ejercicio 6: Formulario de Búsqueda",
+                code: `&lt;{0}&gt; action="mailto:buscar@web.com" {1}="{2}"&gt;
+  &lt;{3}&gt; {4}="search" {5}="q" placeholder="Buscar..."&gt;
+  &lt;{6}&gt; {7}="submit" {8}="🔍 Buscar"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "method", "GET", "input", "type", "name", "button", "type", "value", "form"],
+                options: ["form", "method", "GET", "input", "type", "name", "button", "value", "search", "submit", "text"],
+                 hints: [
+                    "HTML5 introdujo un tipo de `input` semántico para campos de búsqueda: `search`.",
+                    "El `method` más común para formularios de búsqueda es `GET`, porque permite que la búsqueda se vea en la URL y se pueda compartir.",
+                    "El nombre (`name`) del campo de búsqueda suele ser `q` por convención (del inglés 'query')."
+                ],
+                explanations: {
+                    "search": "`type=\"search\"` funciona como un campo de texto, pero semánticamente indica que es para búsquedas y algunos navegadores le añaden una 'x' para limpiar.",
+                    "q": "Usar `name=\"q\"` es una práctica común heredada de los grandes motores de búsqueda como Google.",
+                    "button": "Un `&lt;button&gt;` de envío dentro de un formulario es implícitamente de `type=\"submit\"`."
+                }
+            },
+            {
+                title: "Ejercicio 7: Formulario con Radio Buttons",
+                code: `&lt;{0}&gt; action="mailto:voto@web.com" method="{1}"&gt;
+  &lt;{2}&gt; {3}="radio" {4}="opcion" {5}="1"&gt;Opción 1
+  &lt;{6}&gt; type="{7}" name="opcion" value="2"&gt;Opción 2
+  &lt;input type="{8}"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "GET", "input", "type", "name", "value", "input", "radio", "submit", "form"],
+                options: ["form", "GET", "input", "type", "name", "value", "radio", "submit", "checkbox", "button"],
+                hints: [
+                    "Para opciones donde solo se puede elegir una, se usa el `&lt;input type=\"radio\"&gt;`.",
+                    "Lo que agrupa a varios `radio buttons` para que solo uno pueda ser seleccionado a la vez es que todos compartan el mismo `name`.",
+                    "Cada `radio button` debe tener un `value` único para saber cuál se seleccionó."
+                ],
+                explanations: {
+                    "radio": "A diferencia de `checkbox`, los `radio` buttons son para selección única dentro de un grupo.",
+                    "name": "Compartir el mismo `name` es la clave para que los `radio buttons` funcionen como un grupo. Si tienen `name` diferentes, podrías seleccionar todos.",
+                    "value": "El `value` es el dato que se envía al servidor, identificando la opción elegida por el usuario."
+                }
+            },
+            {
+                title: "Ejercicio 8: Formulario con Número",
+                code: `&lt;{0}&gt; {1}="mailto:pedido@web.com" method="GET"&gt;
+  &lt;{2}&gt; type="{3}" {4}="cantidad" {5}="1" {6}="100"&gt;
+  &lt;{7}&gt; {8}="submit" value="Pedir"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "action", "input", "number", "name", "min", "max", "input", "type", "form"],
+                options: ["form", "action", "input", "number", "name", "min", "max", "type", "submit", "value", "text"],
+                 hints: [
+                    "Para campos que solo deben aceptar números, HTML5 ofrece `type=\"number\"`.",
+                    "Puedes limitar el rango de valores de un campo numérico con los atributos `min` y `max`.",
+                    "Los navegadores suelen añadir pequeñas flechas para incrementar/decrementar el valor en los `input` de tipo `number`."
+                ],
+                explanations: {
+                    "number": "`type=\"number\"` facilita la entrada de números y permite validaciones numéricas en el navegador.",
+                    "min": "El atributo `min` define el valor mínimo permitido para el campo.",
+                    "max": "El atributo `max` define el valor máximo permitido para el campo."
+                }
+            },
+            {
+                title: "Ejercicio 9: Formulario con Fecha",
+                code: `&lt;{0}&gt; action="mailto:cita@web.com" {1}="GET"&gt;
+  &lt;{2}&gt; {3}="date" {4}="fecha" {5}&gt;
+  &lt;{6}&gt; type="{7}" name="hora"&gt;
+  &lt;input type="{8}"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "method", "input", "type", "name", "required", "input", "time", "submit", "form"],
+                options: ["form", "method", "input", "type", "name", "required", "time", "date", "submit", "datetime"],
+                hints: [
+                    "HTML5 tiene tipos de `input` específicos para fechas (`date`) y horas (`time`).",
+                    "Usar estos tipos especiales activa selectores de calendario y reloj en la mayoría de los navegadores, mejorando la experiencia de usuario.",
+                    "El atributo `required` puede aplicarse a cualquier campo para hacerlo obligatorio."
+                ],
+                explanations: {
+                    "date": "`type=\"date\"` muestra un selector de calendario para elegir día, mes y año.",
+                    "time": "`type=\"time\"` muestra un selector para elegir la hora y los minutos.",
+                    "required": "Este atributo booleano indica que el campo no puede dejarse vacío al enviar el formulario."
+                }
+            },
+            {
+                title: "Ejercicio 10: Formulario con Color",
+                code: `&lt;{0}&gt; {1}="mailto:color@web.com" {2}="GET"&gt;
+  &lt;{3}&gt; type="{4}" {5}="favorito" {6}="#ff0000"&gt;
+  &lt;{7}&gt; {8}="submit"&gt;Guardar&lt;/{9}&gt;
+&lt;/{10}&gt;`,
+                blanks: ["form", "action", "method", "input", "color", "name", "value", "button", "type", "button", "form"],
+                options: ["form", "action", "method", "input", "color", "name", "value", "button", "type", "submit"],
+                hints: [
+                    "Hay un tipo de `input` que permite al usuario elegir un color de una paleta: `type=\"color\"`.",
+                    "El `value` de un selector de color debe ser un código de color hexadecimal de 7 caracteres, como `#ff0000` (rojo).",
+                    "Tanto `&lt;input type=\"submit\"&gt;` como `&lt;button type=\"submit\"&gt;` sirven para enviar el formulario."
+                ],
+                explanations: {
+                    "color": "Al usar `type=\"color\"`, el navegador muestra una interfaz nativa para seleccionar un color.",
+                    "value": "El valor por defecto (`value`) establece el color inicial del selector.",
+                    "button": "La etiqueta `&lt;button&gt;` es a menudo preferida sobre `&lt;input type=\"submit\"&gt;` porque permite contenido más rico en su interior (como iconos o más texto)."
+                }
+            },
+            {
+                title: "Ejercicio 11: Formulario con URL",
+                code: `&lt;{0}&gt; action="mailto:web@site.com" method="{1}"&gt;
+  &lt;{2}&gt; {3}="url" {4}="sitio" placeholder="https://..."&gt;
+  &lt;{5}&gt; type="{6}" name="descripcion"&gt;
+  &lt;input {7}="submit"&gt;
+&lt;/{8}&gt;`,
+                blanks: ["form", "GET", "input", "type", "name", "input", "text", "type", "form"],
+                options: ["form", "GET", "input", "type", "name", "text", "url", "submit", "link", "href"],
+                hints: [
+                    "Para campos que deben contener una dirección web, se usa el `type=\"url\"`.",
+                    "Este tipo de campo puede ser validado automáticamente por el navegador para asegurar que el formato es correcto.",
+                    "Un formulario puede contener múltiples campos `input` para recoger diferente información."
+                ],
+                explanations: {
+                    "url": "`type=\"url\"` indica semánticamente que el campo es para una URL y puede optimizar el teclado en móviles (mostrando el '.com', etc.).",
+                    "text": "`type=\"text\"` es el tipo de campo más genérico para una sola línea de texto.",
+                }
+            },
+            {
+                title: "Ejercicio 12: Formulario con Tel",
+                code: `&lt;{0}&gt; {1}="mailto:tel@web.com" method="GET"&gt;
+  &lt;{2}&gt; type="{3}" {4}="telefono" {5}="[0-9]{9}"&gt;
+  &lt;{6}&gt; {7}="submit" {8}="Llamar"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "action", "input", "tel", "name", "pattern", "input", "type", "value", "form"],
+                options: ["form", "action", "input", "tel", "name", "pattern", "type", "value", "submit", "phone"],
+                hints: [
+                    "Para números de teléfono, se usa `type=\"tel\"`.",
+                    "El atributo `pattern` permite definir una expresión regular para validar el formato del dato introducido.",
+                    "La expresión regular `[0-9]{9}` significa: 'exactamente 9 caracteres, y cada uno debe ser un dígito del 0 al 9'."
+                ],
+                explanations: {
+                    "tel": "`type=\"tel\"` no impone ninguna sintaxis, pero es semánticamente correcto y puede ayudar a los teclados móviles.",
+                    "pattern": "El atributo `pattern` es una herramienta de validación muy potente que funciona con expresiones regulares.",
+                }
+            },
+            {
+                title: "Ejercicio 13: Formulario con Range",
+                code: `&lt;{0}&gt; action="mailto:rango@web.com" {1}="{2}"&gt;
+  &lt;{3}&gt; {4}="range" {5}="volumen" {6}="0" {7}="100"&gt;
+  &lt;{8}&gt; type="{9}"&gt;
+&lt;/{10}&gt;`,
+                blanks: ["form", "method", "GET", "input", "type", "name", "min", "max", "input", "submit", "form"],
+                options: ["form", "method", "GET", "input", "type", "name", "min", "max", "range", "submit"],
+                hints: [
+                    "Para crear un control deslizante (slider), se utiliza `type=\"range\"`.",
+                    "Al igual que con el tipo `number`, se pueden usar `min` y `max` para definir los límites del deslizador.",
+                    "El valor de un `range` no es visible por defecto; se necesita JavaScript para mostrarlo."
+                ],
+                explanations: {
+                    "range": "`type=\"range\"` es ideal para ajustes que no requieren un valor preciso, como el volumen o el brillo.",
+                    "min": "Define el valor en el extremo izquierdo del deslizador.",
+                    "max": "Define el valor en el extremo derecho del deslizador."
+                }
+            },
+            {
+                title: "Ejercicio 14: Formulario con File",
+                code: `&lt;{0}&gt; {1}="mailto:file@web.com" method="GET" {2}="multipart/form-data"&gt;
+  &lt;{3}&gt; {4}="file" {5}="archivo" {6}="image/*"&gt;
+  &lt;{7}&gt; type="{8}"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "action", "enctype", "input", "type", "name", "accept", "input", "submit", "form"],
+                options: ["form", "action", "enctype", "input", "type", "name", "accept", "submit", "file", "upload"],
+                 hints: [
+                    "Para permitir al usuario subir archivos, se usa `&lt;input type=\"file\"&gt;`.",
+                    "Cuando un formulario sube archivos, el `method` debe ser `POST` y se necesita un `enctype` especial.",
+                    "El atributo `accept` sugiere al navegador qué tipos de archivo son preferibles (ej. 'image/*' para cualquier imagen)."
+                ],
+                explanations: {
+                    "enctype": "`enctype=\"multipart/form-data\"` es obligatorio para que los formularios con subida de archivos funcionen correctamente.",
+                    "file": "`type=\"file\"` crea un botón que abre el explorador de archivos del sistema operativo.",
+                    "accept": "El atributo `accept` es una guía para el usuario, no una validación estricta. Define los tipos de archivo que se muestran en la ventana de selección."
+                }
+            },
+            {
+                title: "Ejercicio 15: Formulario con Hidden",
+                code: `&lt;{0}&gt; action="mailto:id@web.com" {1}="GET"&gt;
+  &lt;{2}&gt; {3}="hidden" {4}="id" {5}="12345"&gt;
+  &lt;{6}&gt; type="text" {7}="nombre"&gt;
+  &lt;input type="{8}"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "method", "input", "type", "name", "value", "input", "name", "submit", "form"],
+                options: ["form", "method", "input", "type", "name", "value", "hidden", "submit", "text"],
+                hints: [
+                    "Existe un tipo de `input` para enviar datos que el usuario no ve ni puede modificar: `type=\"hidden\"`.",
+                    "Los campos ocultos son útiles para enviar información técnica como IDs de usuario, tokens de seguridad, etc.",
+                    "Aunque esté oculto, un campo `hidden` necesita `name` y `value` para poder enviar su dato."
+                ],
+                explanations: {
+                    "hidden": "`type=\"hidden\"` crea un campo que no es visible en la página pero cuyo valor se envía junto con el resto del formulario.",
+                    "value": "En un campo oculto, el `value` es el dato que se enviará. Normalmente se establece desde el servidor o con JavaScript."
+                }
+            },
+            {
+                title: "Ejercicio 16: Formulario con Multiple Select",
+                code: `&lt;{0}&gt; {1}="mailto:multi@web.com" method="{2}"&gt;
+  &lt;{3}&gt; name="idiomas" {4}&gt;
+    &lt;{5}&gt; {6}="es"&gt;Español&lt;/{7}&gt;
+    &lt;{8}&gt; value="en"&gt;Inglés&lt;/{9}&gt;
+  &lt;/{10}&gt;
+  &lt;input type="{11}"&gt;
+&lt;/{12}&gt;`,
+                blanks: ["form", "action", "GET", "select", "multiple", "option", "value", "option", "option", "option", "select", "submit", "form"],
+                options: ["form", "action", "GET", "select", "multiple", "option", "value", "submit", "choice"],
+                hints: [
+                    "Para permitir seleccionar varias opciones de una lista, se añade el atributo `multiple` a la etiqueta `&lt;select&gt;`.",
+                    "Los navegadores suelen mostrar los `select` múltiples como una caja con lista en vez de un desplegable.",
+                    "Para seleccionar varias opciones, el usuario normalmente usa las teclas Ctrl (o Cmd) + Click."
+                ],
+                explanations: {
+                    "select": "La etiqueta `&lt;select&gt;` se usa tanto para selección única como múltiple.",
+                    "multiple": "El atributo `multiple` es booleano; su simple presencia activa el modo de selección múltiple."
+                }
+            },
+            {
+                title: "Ejercicio 17: Formulario con Fieldset",
+                code: `&lt;{0}&gt; action="mailto:group@web.com" method="GET"&gt;
+  &lt;{1}&gt;
+    &lt;{2}&gt;Datos Personales&lt;/{3}&gt;
+    &lt;{4}&gt; {5}="text" {6}="nombre"&gt;
+  &lt;/{7}&gt;
+  &lt;input type="{8}"&gt;
+&lt;/{9}&gt;`,
+                blanks: ["form", "fieldset", "legend", "legend", "input", "type", "name", "fieldset", "submit", "form"],
+                options: ["form", "fieldset", "legend", "input", "type", "name", "submit", "group", "label"],
+                hints: [
+                    "Para agrupar visual y semánticamente varios campos de un formulario, se usa la etiqueta `&lt;fieldset&gt;`.",
+                    "Un `fieldset` suele dibujarse con un borde a su alrededor.",
+                    "Para darle un título o encabezado a un `fieldset`, se usa la etiqueta `&lt;legend&gt;` justo dentro de él."
+                ],
+                explanations: {
+                    "fieldset": "`&lt;fieldset&gt;` es excelente para la accesibilidad y para organizar formularios largos y complejos en secciones lógicas.",
+                    "legend": "La etiqueta `&lt;legend&gt;` proporciona un título para el `fieldset`, mejorando la comprensión del formulario."
+                }
+            },
+            {
+                title: "Ejercicio 18: Formulario con Label",
+                code: `&lt;{0}&gt; {1}="mailto:label@web.com" {2}="GET"&gt;
+  &lt;{3}&gt; {4}="user"&gt;Usuario:&lt;/{5}&gt;
+  &lt;{6}&gt; type="text" {7}="usuario" {8}="user"&gt;
+  &lt;input type="{9}"&gt;
+&lt;/{10}&gt;`,
+                blanks: ["form", "action", "method", "label", "for", "label", "input", "name", "id", "submit", "form"],
+                options: ["form", "action", "method", "label", "for", "input", "name", "id", "submit", "text"],
+                hints: [
+                    "La etiqueta `&lt;label&gt;` es fundamental para la accesibilidad. Asocia un texto descriptivo a un campo del formulario.",
+                    "Para conectar un `&lt;label&gt;` con un `&lt;input&gt;`, el atributo `for` del label debe coincidir con el `id` del input.",
+                    "Hacer clic en un `label` correctamente asociado pone el foco en su `input` correspondiente."
+                ],
+                explanations: {
+                    "label": "Usar `&lt;label&gt;`s permite que los lectores de pantalla anuncien qué es cada campo y aumenta el área clicable.",
+                    "for": "El atributo `for` del `label` debe ser exactamente igual al `id` del `input`, no al `name`.",
+                    "id": "El atributo `id` debe ser único en toda la página HTML y es usado por `label`s y JavaScript para identificar un elemento."
+                }
+            },
+            {
+                title: "Ejercicio 19: Formulario con Datalist",
+                code: `&lt;{0}&gt; action="mailto:list@web.com" method="{1}"&gt;
+  &lt;{2}&gt; type="text" {3}="ciudad" {4}="ciudades"&gt;
+  &lt;{5}&gt; {6}="ciudades"&gt;
+    &lt;{7}&gt; {8}="Madrid"&gt;
+  &lt;/{9}&gt;
+  &lt;input type="{10}"&gt;
+&lt;/{11}&gt;`,
+                blanks: ["form", "GET", "input", "name", "list", "datalist", "id", "option", "value", "datalist", "submit", "form"],
+                options: ["form", "GET", "input", "name", "list", "datalist", "id", "option", "value", "submit"],
+                hints: [
+                    "Para ofrecer sugerencias de autocompletado en un campo de texto, se usa la etiqueta `&lt;datalist&gt;`.",
+                    "Se conecta un `&lt;input&gt;` a un `&lt;datalist&gt;` usando el atributo `list` en el `input` y el `id` en el `datalist`.",
+                    "Dentro del `&lt;datalist&gt;` se usan etiquetas `&lt;option&gt;` para definir las sugerencias."
+                ],
+                explanations: {
+                    "datalist": "`&lt;datalist&gt;` proporciona una experiencia de autocompletado sin forzar al usuario a elegir de la lista, como hace `&lt;select&gt;`.",
+                    "list": "El atributo `list` del `&lt;input&gt;` debe coincidir con el `id` del `&lt;datalist&gt;`.",
+                    "option": "Al igual que en `select`, las etiquetas `&lt;option&gt;` dentro de `datalist` definen las sugerencias, usando su atributo `value`."
+                }
+            },
+            {
+                title: "Ejercicio 20: Formulario Completo Final",
+                code: `&lt;{0}&gt; {1}="mailto:final@web.com" {2}="GET" {3}&gt;
+  &lt;{4}&gt; type="email" {5}="correo" {6} placeholder="Email"&gt;
+  &lt;{7}&gt; {8}="mensaje" rows="3"&gt;&lt;/{9}&gt;
+  &lt;{10}&gt; type="{11}" name="terminos" value="ok"&gt;Acepto
+  &lt;{12}&gt; {13}="submit"&gt;Enviar&lt;/{14}&gt;
+&lt;/{15}&gt;`,
+                blanks: ["form", "action", "method", "novalidate", "input", "name", "required", "textarea", "name", "textarea", "input", "checkbox", "button", "type", "button", "form"],
+                options: ["form", "action", "method", "novalidate", "input", "name", "required", "textarea", "checkbox", "button", "type", "submit"],
+                hints: [
+                    "El atributo `novalidate` en un `&lt;form&gt;` desactiva la validación automática del navegador.",
+                    "El atributo `placeholder` muestra un texto de ejemplo en un campo que desaparece cuando el usuario empieza a escribir.",
+                    "Un formulario puede combinar todo tipo de campos: `input`, `textarea`, `button`, etc."
+                ],
+                explanations: {
+                    "novalidate": "Se usa `novalidate` cuando prefieres implementar tu propia lógica de validación con JavaScript en lugar de la que trae el navegador por defecto.",
+                    "required": "El atributo `required` es la forma más simple de validación, asegurando que un campo no esté vacío.",
+                    "checkbox": "Ideal para obtener consentimientos, como aceptar términos y condiciones."
+                }
+            }
+        ];
+
+        let currentExercise = 0;
+        let score = 0;
+        let attempt = 0;
+        let hintIndex = 0;
+        let draggedElement = null;
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            if (type === 'correct') {
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } else if (type === 'incorrect') {
+                oscillator.frequency.value = 200;
+                oscillator.type = 'sawtooth';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.4);
+            }
+        }
+
+        function loadExercise() {
+            if (currentExercise >= exercises.length) {
+                showFinalScreen();
+                return;
+            }
+
+            attempt = 0;
+            hintIndex = 0;
+            const exercise = exercises[currentExercise];
+
+            document.getElementById('questionTitle').textContent = exercise.title;
+            document.getElementById('currentQuestion').textContent = currentExercise + 1;
+            document.getElementById('attempts').textContent = attempt;
+            
+            const progress = (currentExercise / exercises.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            let codeHTML = exercise.code;
+            for (let i = 0; i < exercise.blanks.length; i++) {
+                codeHTML = codeHTML.replace(`{${i}}`, `<span class="drop-zone" data-index="${i}" data-answer="${exercise.blanks[i]}"></span>`);
+            }
+            document.getElementById('codeArea').innerHTML = codeHTML;
+
+            const optionsArea = document.getElementById('optionsArea');
+            optionsArea.innerHTML = '';
+            
+            const blankCounts = {};
+            exercise.blanks.forEach(blank => {
+                blankCounts[blank] = (blankCounts[blank] || 0) + 1;
+            });
+
+            const shuffled = [...new Set(exercise.options)].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(optionText => {
+                const div = document.createElement('div');
+                div.className = 'draggable';
+                div.draggable = true;
+                div.textContent = optionText;
+                
+                const uses = blankCounts[optionText] || 1;
+                div.dataset.uses = uses;
+                div.dataset.usedCount = 0;
+
+                div.addEventListener('dragstart', handleDragStart);
+                div.addEventListener('dragend', handleDragEnd);
+                optionsArea.appendChild(div);
+            });
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('drop', handleDrop);
+                zone.addEventListener('dragleave', handleDragLeave);
+            });
+
+            resetUI();
+        }
+
+        function resetUI() {
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('hintArea').style.display = 'none';
+            document.getElementById('checkBtn').style.display = 'inline-block';
+            document.getElementById('checkBtn').disabled = false;
+            document.getElementById('hintBtn').style.display = 'none';
+            document.getElementById('solutionBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.querySelectorAll('.draggable').forEach(d => d.draggable = true);
+        }
+
+        function handleDragStart(e) {
+            const uses = parseInt(this.dataset.uses, 10);
+            const usedCount = parseInt(this.dataset.usedCount, 10);
+            if (usedCount >= uses) {
+                e.preventDefault();
+                return;
+            }
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            this.classList.remove('drag-over');
+
+            if (draggedElement) {
+                const oldText = this.textContent;
+
+                if (this.classList.contains('filled') && oldText && oldText !== draggedElement.textContent) {
+                    const options = document.querySelectorAll('.draggable');
+                    for (let option of options) {
+                        if (option.textContent === oldText) {
+                            let usedCount = parseInt(option.dataset.usedCount, 10);
+                            option.dataset.usedCount = Math.max(0, usedCount - 1);
+                            if (option.classList.contains('used')) {
+                                option.classList.remove('used');
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+                if (oldText !== draggedElement.textContent) {
+                    this.textContent = draggedElement.textContent;
+                    let usedCount = parseInt(draggedElement.dataset.usedCount, 10);
+                    draggedElement.dataset.usedCount = usedCount + 1;
+                    const uses = parseInt(draggedElement.dataset.uses, 10);
+                    if ((usedCount + 1) >= uses) {
+                        draggedElement.classList.add('used');
+                    }
+                }
+
+                this.classList.add('filled');
+                this.classList.remove('incorrect');
+                
+                document.getElementById('checkBtn').disabled = false;
+                document.getElementById('feedback').style.display = 'none';
+                document.getElementById('hintArea').style.display = 'none';
+            }
+            return false;
+        }
+
+        function checkAnswers() {
+            const zones = document.querySelectorAll('.drop-zone');
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = 'none';
+            
+            let allCorrect = true;
+            let filledCount = 0;
+
+            zones.forEach(zone => {
+                zone.classList.remove('incorrect');
+                if (zone.textContent.trim() !== '') {
+                    filledCount++;
+                    const userAnswer = zone.textContent.trim();
+                    const correctAnswer = zone.getAttribute('data-answer');
+                    if (userAnswer !== correctAnswer) {
+                        allCorrect = false;
+                        zone.classList.add('incorrect');
+                    }
+                } else {
+                    allCorrect = false;
+                }
+            });
+
+            if (filledCount < zones.length) {
+                feedback.textContent = 'Por favor, completa todos los espacios antes de comprobar.';
+                feedback.className = 'feedback incorrect';
+                feedback.style.display = 'block';
+                playSound('incorrect');
+                return;
+            }
+
+            attempt++;
+            document.getElementById('attempts').textContent = attempt;
+
+            if (allCorrect) {
+                score += (10 - (attempt > 1 ? attempt*2 : 0)); // Penalización por intentos
+                document.getElementById('score').textContent = score;
+                feedback.textContent = '¡Correcto! ¡Bien hecho!';
+                feedback.className = 'feedback correct';
+                playSound('correct');
+                
+                document.getElementById('checkBtn').style.display = 'none';
+                document.getElementById('hintBtn').style.display = 'none';
+                document.getElementById('solutionBtn').style.display = 'none';
+                document.getElementById('nextBtn').style.display = 'inline-block';
+                document.querySelectorAll('.draggable').forEach(d => d.draggable = false);
+
+            } else {
+                feedback.textContent = 'Algunas respuestas son incorrectas. ¡Sigue intentando o pide una pista!';
+                feedback.className = 'feedback incorrect';
+                playSound('incorrect');
+                document.getElementById('hintBtn').style.display = 'inline-block';
+                
+                if (attempt >= 2) {
+                    document.getElementById('solutionBtn').style.display = 'inline-block';
+                    showSpecificExplanations();
+                }
+            }
+            feedback.style.display = 'block';
+        }
+
+        function showHint() {
+            const exercise = exercises[currentExercise];
+            const hintArea = document.getElementById('hintArea');
+            
+            if (exercise.hints && exercise.hints.length > 0) {
+                hintArea.innerHTML = `<strong>Pista:</strong> ${exercise.hints[hintIndex]}`;
+                hintArea.style.display = 'block';
+                hintIndex = (hintIndex + 1) % exercise.hints.length;
+            }
+        }
+        
+        function showSpecificExplanations() {
+            const exercise = exercises[currentExercise];
+            const hintArea = document.getElementById('hintArea');
+            let explanationHTML = "<ul>";
+            let explanationsShown = new Set();
+
+            document.querySelectorAll('.drop-zone.incorrect').forEach(zone => {
+                const correctAnswer = zone.getAttribute('data-answer');
+                if (exercise.explanations[correctAnswer] && !explanationsShown.has(correctAnswer)) {
+                    explanationHTML += `<li><strong>${correctAnswer}:</strong> ${exercise.explanations[correctAnswer]}</li>`;
+                    explanationsShown.add(correctAnswer);
+                }
+            });
+            
+            explanationHTML += "</ul>";
+
+            if (explanationsShown.size > 0) {
+                hintArea.innerHTML = explanationHTML;
+                hintArea.style.display = 'block';
+            }
+        }
+
+        function showSolution() {
+            const zones = document.querySelectorAll('.drop-zone');
+            zones.forEach(zone => {
+                const correctAnswer = zone.getAttribute('data-answer');
+                zone.textContent = correctAnswer;
+                zone.classList.remove('incorrect');
+                zone.classList.add('correct-answer-highlight');
+            });
+
+            document.getElementById('feedback').textContent = 'Aquí tienes la solución. ¡Estúdiala para la próxima!';
+            document.getElementById('feedback').className = 'feedback correct';
+
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('hintBtn').style.display = 'none';
+            document.getElementById('solutionBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.querySelectorAll('.draggable').forEach(d => d.draggable = false);
+        }
+
+        function nextExercise() {
+            currentExercise++;
+            loadExercise();
+        }
+
+        function showFinalScreen() {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('finalScreen').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            
+            let message = "¡Sigue practicando!";
+            if (score >= 150) {
+                message = "¡Felicidades! ¡Has dominado los formularios HTML!";
+            } else if (score >= 100) {
+                message = "¡Excelente trabajo! Estás casi listo.";
+            } else if (score >= 50) {
+                message = "¡Buen esfuerzo! Un poco más de práctica y lo tendrás.";
+            }
+            document.getElementById('finalMessage').textContent = message;
+        }
+
+        document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+        document.getElementById('hintBtn').addEventListener('click', showHint);
+        document.getElementById('solutionBtn').addEventListener('click', showSolution);
+        document.getElementById('nextBtn').addEventListener('click', nextExercise);
+
+        window.onload = loadExercise;
+    </script>
+</body>
+</html>

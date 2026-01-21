@@ -7,6 +7,75 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Barra de Navegación Fija -->
+    <nav class="navbar-fixed">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">LMSGI</span>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li class="nav-item">
+                    <a href="#inicio" class="nav-link" onclick="scrollToSection(event, 'startScreen')">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Inicio</span>
+                        <span class="nav-tooltip">Volver al menú principal</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#resumen" class="nav-link" onclick="scrollToSection(event, 'resumenTemas')">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">Resumen</span>
+                        <span class="nav-tooltip">Resumen por temas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#glosario" class="nav-link" onclick="scrollToSection(event, 'glosarioSection')">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-text">Glosario</span>
+                        <span class="nav-tooltip">Términos técnicos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ejercicios" class="nav-link" onclick="scrollToSection(event, 'ejerciciosLink')">
+                        <span class="nav-icon">✏️</span>
+                        <span class="nav-text">Ejercicios</span>
+                        <span class="nav-tooltip">Ejercicios interactivos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#juego" class="nav-link" onclick="startGame(); return false;">
+                        <span class="nav-icon">🎮</span>
+                        <span class="nav-text">Juego</span>
+                        <span class="nav-tooltip">Comenzar examen</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#juego-forms" class="nav-link" onclick="showScreen('formGameScreen'); return false;">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">Juego Forms</span>
+                        <span class="nav-tooltip">Juego de Arrastrar y Soltar</span>
+                    </a>
+                </li>
+                <li class="nav-item nav-separator"></li>
+                <li class="nav-item discord-link">
+                    <a href="https://discord.gg/byCRavuB7e" target="_blank" class="nav-link discord" title="Únete a nuestro servidor Discord">
+                        <span class="nav-icon">💬</span>
+                        <span class="nav-text">Discord</span>
+                        <span class="nav-tooltip">Comunidad Discord</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="navbar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
             <h1>🎓 Preparación de Examen</h1>
@@ -122,7 +191,7 @@
                         </div>
                     </div>
 
-                    <div class="button-group">
+                    <div class="button-group" id="ejerciciosLink">
                         <button id="startBtn" class="btn btn-primary">Comenzar Juego</button>
                         <button id="exercisesBtn" class="btn btn-secondary">📝 Ejercicios Interactivos</button>
                     </div>
@@ -172,7 +241,7 @@
                 </div>
 
                 <!-- Sección de Resumen por Temas -->
-                <div class="resume-section">
+                <div class="resume-section" id="resumenTemas">
                     <h3>📚 Resumen por Temas</h3>
                     
                     <div class="accordion">
@@ -604,7 +673,7 @@ SALIDA: HTML, XML diferente, o texto plano
                 </div>
 
                 <!-- Sección de Glosario -->
-                <div class="glossary-section">
+                <div class="glossary-section" id="glosarioSection">
                     <h3>📖 Glosario de Términos</h3>
                     <p class="glossary-intro">Definiciones profesionales de los conceptos clave en Lenguajes de Marcas e Interfaces:</p>
                     
@@ -859,6 +928,15 @@ SALIDA: HTML, XML diferente, o texto plano
                         <button id="skipExerciseBtn" class="btn btn-secondary">Saltar</button>
                         <button id="backToMenuBtn" class="btn btn-secondary">Volver al Menú</button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Pantalla de Juego de Formularios -->
+            <div id="formGameScreen" class="screen" style="display: none;">
+                <div class="card">
+                    <h2>📝 Juego Interactivo de Formularios HTML</h2>
+                    <p>Demuestra tu conocimiento sobre la estructura de formularios arrastrando y soltando las etiquetas y atributos correctos.</p>
+                    <iframe src="juego_formularios.html" style="width: 100%; height: 85vh; border: none; margin-top: 1rem; border-radius: 10px;"></iframe>
                 </div>
             </div>
         </main>

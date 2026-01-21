@@ -31,6 +31,7 @@ const startScreen = document.getElementById('startScreen');
 const gameScreen = document.getElementById('questionScreen');
 const resultsScreen = document.getElementById('resultsScreen');
 const exercisesScreen = document.getElementById('exercisesScreen');
+const formGameScreen = document.getElementById('formGameScreen');
 
 const startBtn = document.getElementById('startBtn');
 const exercisesBtn = document.getElementById('exercisesBtn');
@@ -1031,5 +1032,44 @@ accordionHeaders.forEach(header => {
         if (!isActive) {
             accordionItem.classList.add('active');
         }
+    });
+});
+
+// ===== NAVEGACIÓN FIJA Y SCROLL =====
+function scrollToSection(event, sectionId) {
+    event.preventDefault();
+    
+    const element = document.getElementById(sectionId);
+    if (element) {
+        // Si es startScreen, mostrar la pantalla
+        if (sectionId === 'startScreen') {
+            showScreen('startScreen');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            // Para otras secciones, desplazarse a ellas
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+}
+
+// Evento para mostrar/ocultar navbar en móvil
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarToggle = document.querySelector('.navbar-toggle');
+    const navbarMenu = document.querySelector('.navbar-menu');
+    
+    if (navbarToggle) {
+        navbarToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            navbarToggle.classList.toggle('active');
+        });
+    }
+    
+    // Cerrar menú al hacer clic en un enlace
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navbarMenu.classList.remove('active');
+            navbarToggle.classList.remove('active');
+        });
     });
 });

@@ -25,11 +25,330 @@ body {
     color: var(--dark-text);
 }
 
+/* ===== BARRA DE NAVEGACIÓN FIJA ===== */
+
+.navbar-fixed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(243, 244, 246, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+    color: var(--secondary-color);
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    display: inline-block;
+}
+
+.logo-text {
+    letter-spacing: 0.1em;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-separator {
+    width: 1px;
+    height: 50%;
+    background: var(--border-color);
+    margin: 0 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0 1.2rem;
+    height: 100%;
+    text-decoration: none;
+    color: var(--dark-text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+}
+
+.nav-icon {
+    font-size: 1.3rem;
+    display: inline-block;
+    animation: iconBounce 0.6s ease-in-out;
+}
+
+.nav-link:hover .nav-icon {
+    animation: iconFloat 0.6s ease-in-out;
+}
+
+.nav-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.nav-tooltip {
+    display: none;
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.nav-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.nav-link:hover .nav-tooltip {
+    display: block;
+    opacity: 1;
+    bottom: -40px;
+    animation: tooltipFadeIn 0.3s ease;
+}
+
+.nav-link.discord {
+    color: #5865f2;
+}
+
+.nav-link.discord:hover {
+    color: #5865f2;
+    background: rgba(88, 101, 242, 0.1);
+}
+
+.nav-link.discord::before {
+    background: linear-gradient(90deg, #5865f2, #4752c4);
+}
+
+.discord-link .nav-tooltip {
+    background: #5865f2;
+}
+
+.discord-link .nav-tooltip::before {
+    background: #5865f2;
+}
+
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px;
+    width: 30px;
+    height: 24px;
+}
+
+.navbar-toggle span {
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(10px, 10px);
+}
+
+.navbar-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Animaciones */
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes iconFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 1rem;
+    }
+
+    .navbar-toggle {
+        display: flex;
+    }
+
+    .navbar-menu {
+        position: fixed;
+        left: 0;
+        top: 70px;
+        width: 100%;
+        flex-direction: column;
+        background: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        gap: 0;
+        border-bottom: 2px solid var(--primary-color);
+    }
+
+    .navbar-menu.active {
+        max-height: 400px;
+    }
+
+    .nav-item {
+        width: 100%;
+        height: 50px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-separator {
+        display: none;
+    }
+
+    .nav-link {
+        flex-direction: row;
+        gap: 0.8rem;
+        padding: 0 1rem;
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .nav-link::before {
+        height: 100%;
+        width: 3px;
+        left: 0;
+        bottom: auto;
+        transform: scaleY(0);
+        transform-origin: center;
+    }
+
+    .nav-link:hover::before {
+        transform: scaleY(1);
+    }
+
+    .nav-icon {
+        font-size: 1.2rem;
+    }
+
+    .nav-text {
+        flex: 1;
+        text-align: left;
+    }
+
+    .nav-tooltip {
+        display: none !important;
+    }
+
+    .logo-text {
+        display: none;
+    }
+}
+
 .container {
     width: 100%;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin-top: 70px;
 }
 
 header {
